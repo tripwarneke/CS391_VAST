@@ -1,0 +1,16 @@
+<!-- Account Creation View -->
+<h1>Create Account</h1>
+
+<p id="AccountText">
+	To create a new account, please enter an account name, a password, and your date of birth.
+</p>
+<p id="Feedback"><%= feedback %></p>
+<form name="createForm" action="/create" onsubmit="return validateCreate()" method="get" accept-charset="utf-8">
+	<p><label>Username:</label><input type="text/submit/hidden/button" name="username"></p>
+	<p><label>Enter Password:</label><input type="text/submit/hidden/button" name="pw1"></p>
+	<p><label>Re-enter Password:</label><input type="text/submit/hidden/button" name="pw2"></p>
+	<p><label>Birthday:</label><input type="date" name="bday"></p>
+	<p><input type="submit" value="Submit"></p>
+</form>
+
+<p id="GotoLogin">To return to the login page, click <a href="/login">here</a>. </p>

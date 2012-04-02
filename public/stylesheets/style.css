@@ -1,0 +1,24 @@
+body {
+    width: 700px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+
+header > h1, header > h3, header > h4, header > h5 {
+    text-align: center;
+    margin: 4px;
+}
+
+p {
+	  font: 12px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+    text-align: justify;
+}
+
