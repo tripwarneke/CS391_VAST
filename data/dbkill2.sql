@@ -1,0 +1,17 @@
+-- Delete database objects:
+
+DROP SEQUENCE user_uid_seq CASCADE;
+DROP TABLE users CASCADE;
+
+DROP SEQUENCE a_ass_seq CASCADE;
+DROP TABLE assignments CASCADE;
+
+DROP SEQUENCE c_cid_seq CASCADE;
+DROP TABLE courses CASCADE;
+
+DROP TABLE takes CASCADE;
+
+DROP TABLE homeworks CASCADE;
+
+DROP SEQUENCE g_grade_seq CASCADE;
+DROP TABLE gradebook CASCADE;
