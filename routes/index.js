@@ -218,6 +218,11 @@ exports.login = function(req, res) {
 	});	
 };
 
+exports.logout = function(req, res) {
+	req.session.destroy();
+	res.render('home',{title:'Home',error:'Your account has been logged out successfully'});
+};
+
 // handle create page and create account
 exports.add_course = function(req, res) {
 	var course= req.body.course;
