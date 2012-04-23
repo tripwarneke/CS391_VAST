@@ -31,7 +31,9 @@ app.configure('production', function(){
 
 app.get('/', routes.home);
 app.get('/create', routes.create);
-app.get('/login', routes.login);
+app.post('/create', routes.create);
+app.post('/login', routes.login);
+app.get('/login', routes.home);
 app.get('/index', routes.home);
 app.get('/logout', routes.logout);
 app.get('/home', routes.home);

@@ -41,6 +41,10 @@ p {
 	align: center;
 }
 
+.error{
+	color:red; 
+}
+
 .body-left {
 	float: left;
 	padding-top: 5%;
@@ -206,3 +210,5 @@ a.button:active {
 	background: -webkit-linear-gradient(top, #15317E, #306EFF);
 	outline: none; /* hide dotted outline in Firefox */
 }
+
+

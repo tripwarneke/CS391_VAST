@@ -32,6 +32,7 @@ function addUser(userName, userEmail, userSchool, userPassword, cb){
 			cb(-1);
 		}else{
 			//returned non-null
+			console.log('added new user');
 			cb(1);
 		}
 	});
@@ -106,13 +107,19 @@ function getGrades(userID, cb){
 		});
 }
 
+// home page, and also login page
 exports.home = function(req, res) {
     // TODO: home
-	res.render('home',{title:'Home'});
+	res.render('home',{title:'Home', error:req.session.msg});
 };
 exports.profile = function(req, res) {
-    // TODO: home
-	res.render('profile',{title:'Profile'});
+    var user  = req.session.user;
+    if (!user) {
+		req.session.msg = 'Please login first';
+        res.redirect('/home');
+        return;
+    }
+	res.render('profile',{title:'Profile',user:req.session.user});
 };
 exports.gpa = function(req, res) {
     // TODO: home
@@ -123,7 +130,89 @@ exports.est = function(req, res) {
     // TODO: home
 	res.render('est',{title:'Grade Estimator'});
 };
-exports.test = function(req, res) {
-    // TODO: home
-	res.render('test',{title:'Grade Estimator'});
+
+// handle create page and create account
+exports.create = function(req, res) {
+	var username = req.body.username;
+	var email = req.body.email;
+	var school = req.body.school;
+	var password = req.body.password;
+	// check if there is a POST request for creating account
+	if(username && email && school && password){
+	var sql = 'select * from users where u_name = $1;';
+	client.query(sql, [username],
+		function(err, result) {
+			if(err !== null){
+				throw err;
+			}else{
+				// check if the username is already chosen
+				if(result.rows.length != 0)
+					res.render('create', 
+							{ title: 'Create Account', error:'This username is already exist, please pick another one' });
+				// if the information is fine, create an account and redirect to home page for login
+				else{
+					addUser(username, email, school, password, 
+						function(err){
+						res.redirect('/home');
+					});
+				}
+			}
+		});
+	}
+	// just render a normal page if it is not a POST request
+	else{
+		res.render('create',{title:'Create Account',error:null});
+	}
+};
+
+var checkUser = function (username, password){
+	var answer = undefined;
+	var sql = 'select * from users where u_name = $1;';
+	client.query(sql, [username], function(err, result){
+		if(err !== null){
+				throw err;
+		}
+		else{
+			if(result.rows.length != 0){
+				answer = result.rows[0];
+				console.log('found and returned user'+result.rows[0].u_name);
+			}else{
+				console.log('cannot find user');
+			}
+		}
+	});
+	return answer;
+}
+
+// handle login
+exports.login = function(req, res) {
+	var username = req.body.username;
+	var password = req.body.password;
+	// query to find the user with provided username
+	var sql = 'select * from users where u_name = $1;';
+	client.query(sql, [username], function(err, result){
+		if(err !== null){
+				throw err;
+		}
+		else{
+			// if the user is exist
+			if(result.rows.length != 0){
+
+				var user = result.rows[0];
+				// check password
+				if(password != user.u_password){
+					res.render('home',{title:'Home',error:'password does not match'});
+					return;
+				}
+				else{
+					req.session.user = user;
+					res.redirect('/profile');
+				}	
+			}
+			else{
+				console.log('cannot find user');
+				res.render('home',{title:'Home',error:'username does not exist'});
+			}
+		}
+	});	
 };
