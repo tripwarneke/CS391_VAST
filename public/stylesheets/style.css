@@ -1,24 +1,208 @@
 body {
-    width: 700px;
-    margin-right: auto;
-    margin-left: auto;
-    padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	margin-right: auto;
+	margin-left: auto;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-image: url("/media/background-blue3.png");
+	background-size: 100% 100%;
 }
 
 a {
-  color: #00B7FF;
+	color: #0011FF;
+	font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-
-
-header > h1, header > h3, header > h4, header > h5 {
-    text-align: center;
-    margin: 4px;
+header>h1,header>h3,header>h4,header>h5 {
+	text-align: center;
+	margin: 4px;
 }
 
 p {
-	  font: 12px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
-    text-align: justify;
+	font: 12px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
 }
 
+#head {
+	box-shadow: 0 2px 5px rgba(0, 0, 0, .7);
+	color: black;
+	position: relative;
+}
+
+#top-bar {
+	width: 100%;
+	height: 50px;
+	background-image: url("/media/background-1.png");
+	background-size: 100% 100%;
+}
+
+#content {
+	width: 100%;
+}
+
+#body {
+	align: center;
+}
+
+.body-left {
+	float: left;
+	padding-top: 5%;
+	padding-right: 10%;
+	padding-left: 15%;
+	padding-bottom: 15%;
+}
+
+.body-right {
+	float: right;
+	padding-top: 5%;
+	padding-right: 10%;
+	padding-left: 5%;
+	padding-bottom: 5%;
+	background-image: url("/media/background-1rot.png");
+	background-size: 100% 100%;
+	border: 2px solid;
+	border-bottom-left-radius: 15px;
+}
+
+.split-left li {
+	display: inline-block;
+	padding-right: 50px;
+}
+
+.split-left {
+	float: left;
+	padding-right: 75px;
+}
+
+.split-right {
+	float: right;
+	padding: 20px;
+	border-left: ridge;
+	border-left-width: 3px;
+}
+
+.split-right li {
+	display: inline-block;
+	padding-right: 50px;
+}
+
+#top-logo {
+	
+}
+
+#logo {
+	height: 50px;
+	width: 50px;
+	background-image: url("/media/GradeApp_48.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	border-radius: 50%;
+}
+
+.side-logo {
+	background-image: url("/media/GradeApp_128.png");
+	background-size: 100% 100%;
+	padding-bottom: 100%;
+}
+
+#status>li {
+	padding-right: 100px;
+}
+
+#courses {
+	width: auto;
+	padding-right: 10px;
+}
+
+button,input {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 100%;
+	align: center;
+}
+
+#login {
+	overflow: hidden;
+	align: center;
+}
+
+ul {
+	list-style: none
+}
+
+form li {
+	
+}
+
+li {
+	display: list-item;
+}
+
+label {
+	cursor: pointer;
+	display: block;
+	font-weight: bold;
+}
+
+.submit {
+	list-style: none;
+	padding: 0;
+	align: center;
+}
+
+button,input[type="button"],input[type="reset"],input[type="submit"] {
+	border: 1px solid #5E8819;
+	border-radius: 1em;
+	border-style: solid;
+	border-width: 1px;
+	cursor: pointer;
+	display: inline-block;
+	font-weight: bold;
+	line-height: 140%;
+	overflow: visible;
+	padding: .2em 1em;
+	color: #FFFFFF;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	align: center;
+	padding-left: 2.5em;
+	padding-right: 2.5em;
+	width: auto;
+	background: -webkit-linear-gradient(top, #306EFF, #15317E);
+	margin-right: auto;
+	margin-left: auto;
+}
+
+button:active,input[type="button"]:active,input[type="reset"]:active,input[type="submit"]:active {
+	background-position: bottom right;
+	color: #000;
+	background: -webkit-linear-gradient(top, #15317E, #306EFF);
+	outline: none; /* hide dotted outline in Firefox */
+}
+
+a.button {
+	border: 1px solid #5E8819;
+	border-radius: 1em;
+	border-style: ridge;
+	border-width: 1px;
+	cursor: pointer;
+	display: inline-block;
+	font-weight: bold;
+	line-height: 140%;
+	overflow: visible;
+	color: #FFFFFF;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	padding: .5em;
+	padding-left: 2.5em;
+	padding-right: 2.5em;
+	width: 75px;
+	background: -webkit-linear-gradient(top, #306EFF, #15317E);
+	margin-right: auto;
+	margin-left: auto;
+}
+
+a.button:active {
+	background-position: bottom right;
+	color: #000;
+	background: -webkit-linear-gradient(top, #15317E, #306EFF);
+	outline: none; /* hide dotted outline in Firefox */
+}
