@@ -10,6 +10,7 @@ var client;
 
 init();
 
+
 function init(){
 	console.log('connecting to VAST db');
 	pg.connect('tcp://'+user+":"+pword+'@'+host, function (err, cl){
@@ -215,4 +216,14 @@ exports.login = function(req, res) {
 			}
 		}
 	});	
+};
+
+// handle create page and create account
+exports.add_course = function(req, res) {
+	var course= req.body.course;
+	var grade = req.body.grade;
+	var credits = req.body.credits;
+	var semester = req.body.semester;
+	var year = req.body.year;
+
 };

@@ -40,7 +40,8 @@ app.get('/home', routes.home);
 app.get('/profile', routes.profile);
 app.get('/gpa', routes.gpa);
 app.get('/est', routes.est);
-app.get('/test', routes.test);
+app.post('/add-course', routes.add_course);
+
 
 //almost forgot to set this back to 3000
 app.listen(8288);
