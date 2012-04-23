@@ -106,3 +106,24 @@ function getGrades(userID, cb){
 		});
 }
 
+exports.home = function(req, res) {
+    // TODO: home
+	res.render('home',{title:'Home'});
+};
+exports.profile = function(req, res) {
+    // TODO: home
+	res.render('profile',{title:'Profile'});
+};
+exports.gpa = function(req, res) {
+    // TODO: home
+	res.render('gpa',{title:'GPA Calculator'});
+};
+
+exports.est = function(req, res) {
+    // TODO: home
+	res.render('est',{title:'Grade Estimator'});
+};
+exports.test = function(req, res) {
+    // TODO: home
+	res.render('test',{title:'Grade Estimator'});
+};
