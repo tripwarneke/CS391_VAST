@@ -12,7 +12,7 @@
 	<div id="content">
 		<div class="body-left">
 			<h1>Create Account</h1>
-			<form id="login" action method="post">
+			<form id="create" action="/create" method="post">
 
 				<p><label for="username">Username</label></p>
 				<p><input type="text" id="username" name="username" required="required"></p>
@@ -28,6 +28,7 @@
 				
 			<p><input type="submit" value="Create" class="button" /></p>
 			</form>
+			<b class="error"><%- error %></b>
 		</div>
 		<div class="body-right">
 		<h3>Grade Apps</h3>
