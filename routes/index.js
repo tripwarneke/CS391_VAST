@@ -94,6 +94,18 @@ function getAssignments(userID, courseID, cb){
 		});
 }
 
+function getCourses(userID, cb){
+	var sql = 'select C.c_cid, C.c_name, C.c_semester, C.c_year, C.c_instructor, T.t_grade from courses C, takes T where T.t_uid=$1 AND T.t_cid = C.c_cid;';
+	client.query(sql, [userID], function(err, result){
+		if(err !== null){
+			console.log("error getting courses for "+userID);
+			cb(null);
+		}else{
+			cb(result);
+		}
+	});
+}
+
 function getGrades(userID, cb){
 	var sql = 'select * from gradebook where g_uid = $1;';
 	client.query(sql, [userID],
@@ -223,30 +235,7 @@ exports.logout = function(req, res) {
 	res.render('home',{title:'Home',error:'Your account has been logged out successfully'});
 };
 
-<<<<<<< HEAD
-exports.home = function(req, res) {
-    // TODO: home
-	res.render('home',{title:'Home'});
-};
-exports.profile = function(req, res) {
-    // TODO: home
-	res.render('profile',{title:'Profile'});
-};
-exports.gpa = function(req, res) {
-    // TODO: home
-	res.render('gpa',{title:'GPA Calculator'});
-};
 
-exports.est = function(req, res) {
-    // TODO: home
-	res.render('est',{title:'Grade Estimator'});
-};
-exports.test = function(req, res) {
-    // TODO: home
-	res.render('test',{title:'Grade Estimator'});
-};
-
-=======
 // handle create page and create account
 exports.add_course = function(req, res) {
 	var course= req.body.course;
@@ -256,4 +245,4 @@ exports.add_course = function(req, res) {
 	var year = req.body.year;
 
 };
->>>>>>> 113f7de5f5eae4c203b1f8b12f4c70ba6e2e2b30
+
