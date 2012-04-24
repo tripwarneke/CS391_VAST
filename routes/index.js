@@ -164,7 +164,7 @@ exports.create = function(req, res) {
 			}else{
 				addUser(username, email, school, password, 
 						function(err){
-						req.session.msg = 'Your account has been logged out successfully';
+						req.session.msg = 'Your account has been created successfully';
 						res.redirect('/home');
 				});
 			}
