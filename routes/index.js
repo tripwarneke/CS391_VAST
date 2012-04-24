@@ -22,8 +22,6 @@ function init(){
 		}
 	});
 }
-
-
 function addUser(userName, userEmail, userSchool, userPassword, cb){
 	console.log('adding a user to the DB');
 	var sql = 'insert into users values(default, $1, $2, $3, $4, false);';
@@ -38,7 +36,6 @@ function addUser(userName, userEmail, userSchool, userPassword, cb){
 		}
 	});
 }
-
 function addAssignment(assignmentName, assignmentWeight, assignmentScore, cb){
 	console.log('adding a user to the DB');
 	var sql = 'insert into assignments values(default, $1, $2, $3, $4);';
@@ -52,7 +49,6 @@ function addAssignment(assignmentName, assignmentWeight, assignmentScore, cb){
 		}
 	});
 }
-
 function addCourse(coursename, semester, year, instructor, cb) { //SEMESTER is SPRING, SUMMER, WINTER, FALL, year is yyyy
 	console.log('adding course:'+coursename);
 	var sql = 'insert into courses values(default, $1, $2, $3, $4);';
@@ -66,7 +62,17 @@ function addCourse(coursename, semester, year, instructor, cb) { //SEMESTER is S
 	});
 }
 
-function getUsers(cb){
+function getUser(userID, cb){
+	var sql = 'select * from users where u_name = $1;';
+	client.query(sql, [username], function(err, result){
+		if(err !== null or result.rows.length == 0){
+			cb(null);
+		}else{
+			cb(result.rows[0];
+		}
+	});
+}
+function getAllUsers(cb){
 	var sql = 'select * from users;';
 	client.query(sql, [],
 		function(err, result) {
@@ -75,9 +81,9 @@ function getUsers(cb){
 			}else{
 				console.log(JSON.stringify(result));
 				//console.log('returning rows');
-				cb(result);
+				cb(result.rows);
 			}
-		});
+	});
 }
 
 function getAssignments(userID, courseID, cb){
@@ -89,7 +95,7 @@ function getAssignments(userID, courseID, cb){
 			}else{
 				console.log(JSON.stringify(result));
 				//console.log('returning rows');
-				cb(result);
+				cb(result.rows);
 			}
 		});
 }
@@ -101,23 +107,9 @@ function getCourses(userID, cb){
 			console.log("error getting courses for "+userID);
 			cb(null);
 		}else{
-			cb(result);
+			cb(result.rows);
 		}
 	});
-}
-
-function getGrades(userID, cb){
-	var sql = 'select * from gradebook where g_uid = $1;';
-	client.query(sql, [userID],
-		function(err, result) {
-			if(err !== null){
-				cb(null);
-			}else{
-				console.log(JSON.stringify(result));
-				//console.log('returning rows');
-				cb(result);
-			}
-		});
 }
 
 // home page, and also login page
@@ -161,7 +153,7 @@ exports.create = function(req, res) {
 				// check if the username is already chosen
 				if(result.rows.length != 0)
 					res.render('create', 
-							{ title: 'Create Account', error:'This username is already exist, please pick another one' });
+							{ title: 'Create Account', error:'This username already exists, please pick another one' });
 				// if the information is fine, create an account and redirect to home page for login
 				else{
 					addUser(username, email, school, password, 
@@ -178,7 +170,7 @@ exports.create = function(req, res) {
 	}
 };
 
-var checkUser = function (username, password){
+function checkUser(username, password, cb){
 	var answer = undefined;
 	var sql = 'select * from users where u_name = $1;';
 	client.query(sql, [username], function(err, result){
@@ -187,14 +179,15 @@ var checkUser = function (username, password){
 		}
 		else{
 			if(result.rows.length != 0){
-				answer = result.rows[0];
 				console.log('found and returned user'+result.rows[0].u_name);
+				cb(result.rows[0]);
 			}else{
 				console.log('cannot find user');
+				cb(null);
 			}
 		}
 	});
-	return answer;
+	return;
 }
 
 // handle login
@@ -243,6 +236,6 @@ exports.add_course = function(req, res) {
 	var credits = req.body.credits;
 	var semester = req.body.semester;
 	var year = req.body.year;
-
+	
 };
 
