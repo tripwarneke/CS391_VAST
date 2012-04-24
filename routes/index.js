@@ -111,6 +111,17 @@ function getCourses(userID, cb){
 		}
 	});
 }
+function getGPAs(userID, cb){
+	var sql = 'select t_grade, t_credits from takes where t_uid = $1;';
+	client.query(sql, [userID], function(err, result){
+		if(err !== null){
+			console.log("error getting GPAs for " + userID);
+			cb(null);
+		}else{
+			cb(result.rows);
+		}
+	});
+}
 
 // home page, and also login page
 exports.home = function(req, res) {
