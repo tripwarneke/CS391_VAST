@@ -65,10 +65,10 @@ function addCourse(coursename, semester, year, instructor, cb) { //SEMESTER is S
 function getUser(userID, cb){
 	var sql = 'select * from users where u_name = $1;';
 	client.query(sql, [username], function(err, result){
-		if(err !== null or result.rows.length == 0){
+		if(err !== null || result.rows.length == 0){
 			cb(null);
 		}else{
-			cb(result.rows[0];
+			cb(result.rows[0]);
 		}
 	});
 }
