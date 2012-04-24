@@ -1,0 +1,48 @@
+<!-- Create Account-->
+
+<body>
+
+<div id="head">
+	<div id="top-bar">
+	<div id="top-logo"><img id="logo"></img></div>
+	</div>
+</div>
+
+<div id ="body">
+	<div id="content">
+		<div class="body-left">
+			<h1>Create Account</h1>
+			<form id="login" action method="post">
+
+				<p><label for="username">Username</label></p>
+				<p><input type="text" id="username" name="username" required="required"></p>
+				
+				<p><label for="password">Password</label></p>
+				<p><input type="password" id="password" name="password" required="required"></p>
+				
+				<p><label for="school">School</label></p>
+				<p><input type="text" id="school" name="school" required="required"></p>
+				
+				<p><label for="email">Email</label></p>
+				<p><input type="email" id="email" name="email" required="required"></p>
+				
+			<p><input type="submit" value="Create" class="button" /></p>
+			</form>
+		</div>
+		<div class="body-right">
+		<h3>Grade Apps</h3>
+			<div class="side-logo">
+				<img></img>
+			</div>		
+		</div>
+	</div>
+</div>
+
+<div id="foot"></div>
+<div></div>
+<div></div>
+
+
+
+
+</body>

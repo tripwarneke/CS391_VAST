@@ -32,17 +32,18 @@ app.configure('production', function(){
 // Bank Application Routes
 
 app.get('/', routes.home);
-app.get('/create', routes.create);
-app.post('/create', routes.create);
-app.post('/login', routes.login);
 app.get('/login', routes.home);
 app.get('/index', routes.home);
-app.get('/logout', routes.logout);
 app.get('/home', routes.home);
+
+app.get('/create', routes.create);
+app.get('/logout', routes.logout);
 app.get('/profile', routes.profile);
 app.get('/gpa', routes.gpa);
 app.get('/est', routes.est);
 
+app.post('/create', routes.create);
+app.post('/login', routes.login);
 app.post('/add-course', routes.add_course);
 app.post('/calculate', routes.calculate);
 
