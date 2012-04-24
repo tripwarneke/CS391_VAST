@@ -41,6 +41,7 @@ app.get('/profile', routes.profile);
 app.get('/gpa', routes.gpa);
 app.get('/est', routes.est);
 app.post('/add-course', routes.add_course);
+app.post('/calculate', routes.calculate);
 
 
 //almost forgot to set this back to 3000

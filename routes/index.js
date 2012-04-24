@@ -1,6 +1,6 @@
 var fs   = require('fs');
 var path = require('path');
-var pg = require('pg').native;
+var pg = require('pg');
 
 var host = 'ec2-184-72-185-94.compute-1.amazonaws.com/postgres';
 //var port = 5432;
