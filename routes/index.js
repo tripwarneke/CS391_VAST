@@ -115,7 +115,7 @@ function getCourses(userID, cb){
 // home page, and also login page
 exports.home = function(req, res) {
     // TODO: home
-	res.render('home',{title:'Home', error:req.session.msg});
+	res.render('home',{title:'Home', msg:req.session.msg});
 };
 exports.profile = function(req, res) {
     var user  = req.session.user;
@@ -195,7 +195,7 @@ exports.login = function(req, res) {
 		var user = result;
 		if(user){
 			if(password != user.u_password){
-				res.render('home',{title:'Home',error:'password does not match'});
+				res.render('home',{title:'Home',msg:'password does not match'});
 				return;
 			}
 			else{
@@ -204,14 +204,14 @@ exports.login = function(req, res) {
 			}
 		}else{
 			console.log('cannot find user');
-			res.render('home',{title:'Home',error:'username does not exist'});
+			res.render('home',{title:'Home',msg:'username does not exist'});
 		}
 	});	
 };
 
 exports.logout = function(req, res) {
 	req.session.destroy();
-	res.render('home',{title:'Home',error:'Your account has been logged out successfully'});
+	res.render('home',{title:'Home',msg:'Your account has been logged out successfully'});
 };
 
 
