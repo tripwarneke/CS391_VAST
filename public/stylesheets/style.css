@@ -43,6 +43,7 @@ p {
 
 .body-left {
 	float: left;
+	width: 55%;
 	padding-top: 5%;
 	padding-right: 5%;
 	padding-left: 10%;
@@ -74,8 +75,13 @@ p {
 	padding-right: 75px;
 }
 
+.split-left-home {
+	float: left;
+	width: 40%;
+}
+
 .split-right {
-	float: right;
+	float: left;
 	padding: 15px;
 	border-left: ridge;
 	border-left-width: 3px;
