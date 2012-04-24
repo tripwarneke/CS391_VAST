@@ -1,0 +1,35 @@
+DB Outline and notes
+
+
+
+User (Key: StudentID)
+	StudentID	Number
+	School		String
+	Password	Number
+	CreateDate	Date
+	Birthdate	Date
+
+Grade Estimator (Key: StudentID, CourseID)
+	StudentID	Number 
+	CourseID	Number
+	Course_Name 	String
+	Grade_Scale 	Number
+	Expected_Grade	Number
+	Current_Avg	Number
+
+Course Values (Key: CourseID, Assignment_Name)
+	CourseID	Number
+	Assignment_Name	String
+	Weight		Number
+	Score		Number
+
+
+GPA Calc (Key: StudentID, Semester)
+	StudentID	Number
+	Semester	String
+	
+Grades (Key: SID, Sem, CID)
+	StudentID	Number
+	Semester	String
+	CourseID	Number
+	Grade		String
