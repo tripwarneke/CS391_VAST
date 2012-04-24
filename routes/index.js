@@ -124,7 +124,7 @@ exports.profile = function(req, res) {
         res.redirect('/home');
         return;
     }
-	res.render('profile',{title:'Profile',user:req.session.user});
+	res.render('profile',{title:'Profile',user:user});
 };
 exports.gpa = function(req, res) {
     // TODO: home
@@ -144,24 +144,20 @@ exports.create = function(req, res) {
 	var password = req.body.password;
 	// check if there is a POST request for creating account
 	if(username && email && school && password){
-	var sql = 'select * from users where u_name = $1;';
-	client.query(sql, [username],
-		function(err, result) {
-			if(err !== null){
-				throw err;
-			}else{
-				// check if the username is already chosen
-				if(result.rows.length != 0)
-					res.render('create', 
+		// check if the username is already chosen
+		checkUser(username,password, function(result){
+			var user = result;
+			if(user){
+				res.render('create', 
 							{ title: 'Create Account', error:'This username already exists, please pick another one' });
-				// if the information is fine, create an account and redirect to home page for login
-				else{
-					addUser(username, email, school, password, 
+			}else{
+				addUser(username, email, school, password, 
 						function(err){
+						req.session.msg = 'Your account has been logged out successfully';
 						res.redirect('/home');
-					});
-				}
+				});
 			}
+			
 		});
 	}
 	// just render a normal page if it is not a POST request
@@ -171,7 +167,6 @@ exports.create = function(req, res) {
 };
 
 function checkUser(username, password, cb){
-	var answer = undefined;
 	var sql = 'select * from users where u_name = $1;';
 	client.query(sql, [username], function(err, result){
 		if(err !== null){
@@ -195,30 +190,21 @@ exports.login = function(req, res) {
 	var username = req.body.username;
 	var password = req.body.password;
 	// query to find the user with provided username
-	var sql = 'select * from users where u_name = $1;';
-	client.query(sql, [username], function(err, result){
-		if(err !== null){
-				throw err;
-		}
-		else{
-			// if the user is exist
-			if(result.rows.length != 0){
-
-				var user = result.rows[0];
-				// check password
-				if(password != user.u_password){
-					res.render('home',{title:'Home',error:'password does not match'});
-					return;
-				}
-				else{
-					req.session.user = user;
-					res.redirect('/profile');
-				}	
+	
+	checkUser(username, password, function(result){
+		var user = result;
+		if(user){
+			if(password != user.u_password){
+				res.render('home',{title:'Home',error:'password does not match'});
+				return;
 			}
 			else{
-				console.log('cannot find user');
-				res.render('home',{title:'Home',error:'username does not exist'});
+				req.session.user = user;
+				res.redirect('/profile');
 			}
+		}else{
+			console.log('cannot find user');
+			res.render('home',{title:'Home',error:'username does not exist'});
 		}
 	});	
 };
