@@ -1,0 +1,12 @@
+<!-- Login View -->
+<h1>User Login</h1>
+<p id="LoginText">
+	To log into your account, type in your username and password
+</p>
+<p id="Feedback"><%= feedback %></p>
+<form name="loginForm" action="/login" onsubmit="return validateLogin()" method="get" accept-charset="utf-8">
+	<p><label>Username:</label><input type="text/submit/hidden/button" name="username"></p>
+	<p><label>Password:</label><input type="password" name="pwd"></p>
+	<p><input type="submit" value="Login"></p>
+</form>
+<p id="GotoCreate">If you don't have an account and would like to create one, click <a href="/create">here</a>. </p>
