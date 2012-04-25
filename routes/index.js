@@ -236,3 +236,13 @@ exports.add_course = function(req, res) {
 	
 };
 
+exports.get_data = function(req, res) {
+	// Set the content type:
+	res.contentType('application/json');
+
+	console.log('get data called ' );
+
+	// Send the result:
+	res.send({ 'user' : req.session.user});
+	
+};

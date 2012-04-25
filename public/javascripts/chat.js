@@ -3,8 +3,7 @@ var last = 0;
 var get_msg = function () {
 	var req = $.ajax({
 		type: 'POST',
-		url : '/get_msg',
-		data: { 'last' : last }//request the last mid from db
+		url : '/get-data',
 	});	
 	req.done(function (data) {
 		//console.log('received data: ' + data.msg);
