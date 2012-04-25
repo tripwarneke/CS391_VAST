@@ -181,23 +181,6 @@ function updateGrade(userID, cID, grade, credits, cb){
 	});
 }
 
-
-
-
-
-
-function getGPAs(userID, cb){
-	var sql = 'select t_grade, t_credits, t_cid from takes where t_uid = $1;';
-	client.query(sql, [userID], function(err, result){
-		if(err !== null){
-			console.log("error getting GPAs for " + userID);
-			cb(null);
-		}else{
-			cb(result.rows);
-		}
-	});
-}
-
 // home page, and also login page
 exports.home = function(req, res) {
     // TODO: home
@@ -239,7 +222,7 @@ exports.create = function(req, res) {
 			}else{
 				addUser(username, email, school, password, 
 						function(err){
-						req.session.msg = 'Your account has been logged out successfully';
+						req.session.msg = 'Your account has been created successfully';
 						res.redirect('/home');
 				});
 			}
@@ -305,4 +288,15 @@ exports.add_course = function(req, res) {
 	var credits = req.body.credits;
 	var semester = req.body.semester;
 	var year = req.body.year;	
+};
+
+exports.get_data = function(req, res) {
+	// Set the content type:
+	res.contentType('application/json');
+
+	console.log('get data called ' );
+
+	// Send the result:
+	res.send({ 'user' : req.session.user});
+	
 };

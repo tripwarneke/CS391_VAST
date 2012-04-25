@@ -47,6 +47,8 @@ app.post('/login', routes.login);
 app.post('/add-course', routes.add_course);
 app.post('/calculate', routes.calculate);
 
+app.get('/get-data', routes.get_data);
+
 
 //almost forgot to set this back to 3000
 app.listen(3000);
