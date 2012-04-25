@@ -11,9 +11,9 @@
 
 <div id ="body">
 	<div id="content">
-		<div class="body-left">
+		<div id="leftBox" class="body-left">
 			<h1>Grade Estimator</h1>
-			<form id="calculate" action method="post">
+			<form id="calculate" action="/calculate" method="post">
 				<div class="est-left">
 				
 					<p>Select an Assignment</p>
@@ -113,7 +113,16 @@
 	</div>
 </div>
 <div id="foot"></div>
-
+<script>
+	
+	document.getElementById("leftBox").addEventListener("drop", onDrop, true)
+	
+	function onDrop(event) {
+	    var data = event.dataTransfer.getData('text/plain')
+	    event.preventDefault()
+	    alert('files: ' + event.dataTransfer.files + ' && data: ' + data + '.')
+	}
+</script>
 </body>
 
 

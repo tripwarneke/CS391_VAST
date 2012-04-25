@@ -4,7 +4,7 @@
 
 <div id="head">
 	<div id="top-bar">
-	<div id="top-logo"></div>
+	<div id="top-logo"><img id="logo"></img></div>
 	<div id="currentuser"></div>
 	</div>
 </div>
@@ -12,34 +12,93 @@
 <div id ="body">
 	<div id="content">
 		<div class="body-left">
-			<h1>GPA Calculator</h1>
-			<form id="calculate" action method="post">
-				<div class="split-left">
+			<h1>Grade Estimator</h1>
+			<form id="calculate" action="/calculate" method="post">
+				<div class="est-left">
 				
-					<p>Add a Grade and credits</p>
+					<p>Select an Assignment</p>
+						<li><label for="assign">Assignment</label></li>
+						<li><label for="weight">Weight</label></li>
 						<li><label for="grade">Grade</label></li>
-						<li><label for="credits">Credits</label></li>
-					<p><li><select id="dropdown" name="grade">
-						<option value="A">A</option>
-						<option value="B">B</option>
-						<option value="C">C</option>
-						<option value="D">D</option>
-						<option value="F">F</option>				
+					<p><li><select id="dropdown" name="assign">
+						<option value="H">Homework</option>
+						<option value="M">Midterm</option>
+						<option value="P">Project</option>
+						<option value="F">Final</option>
+						<option value="Q">Quiz</option>
+						<option value="L">Lab</option>				
 					</select></li>				
-					<li><input type="number" id="spin" name="credits" min="0" max="120"></p></li>
+					<li><input type="number" id="spin" name="weight" step="5" min="0" max="100" value="0"></li>
+					<li><input type="text" id="text" name="grade"></li></p>
+					
+					<p><li><select id="dropdown" name="assign">
+						<option value="H">Homework</option>
+						<option value="M">Midterm</option>
+						<option value="P">Project</option>
+						<option value="F">Final</option>
+						<option value="Q">Quiz</option>
+						<option value="L">Lab</option>				
+					</select></li>				
+					<li><input type="number" id="spin" name="weight" step="5" min="0" max="100" value="0"></li>
+					<li><input type="text" id="text" name="grade"></li></p>
+					
+					<p><li><select id="dropdown" name="assign">
+						<option value="H">Homework</option>
+						<option value="M">Midterm</option>
+						<option value="P">Project</option>
+						<option value="F">Final</option>
+						<option value="Q">Quiz</option>
+						<option value="L">Lab</option>				
+					</select></li>				
+					<li><input type="number" id="spin" name="weight" step="5" min="0" max="100" value="0"></li>
+					<li><input type="text" id="text" name="grade"></li></p>
+					<p><li><select id="dropdown" name="assign">
+						<option value="H">Homework</option>
+						<option value="M">Midterm</option>
+						<option value="P">Project</option>
+						<option value="F">Final</option>
+						<option value="Q">Quiz</option>
+						<option value="L">Lab</option>				
+					</select></li>				
+					<li><input type="number" id="spin" name="weight" step="5" min="0" max="100" value="0"></li>
+					<li><input type="text" id="text" name="grade"></li></p>
+					
+					<p><li><select id="dropdown" name="assign">
+						<option value="H">Homework</option>
+						<option value="M">Midterm</option>
+						<option value="P">Project</option>
+						<option value="F">Final</option>
+						<option value="Q">Quiz</option>
+						<option value="L">Lab</option>				
+					</select></li>				
+					<li><input type="number" id="spin" name="weight" step="5" min="0" max="100" value="0"></li>
+					<li><input type="text" id="text" name="grade"></li></p>
+					
+					<p><li><select id="dropdown" name="assign">
+						<option value="H">Homework</option>
+						<option value="M">Midterm</option>
+						<option value="P">Project</option>
+						<option value="F">Final</option>
+						<option value="Q">Quiz</option>
+						<option value="L">Lab</option>				
+					</select></li>				
+					<li><input type="number" id="spin" name="weight" step="5" min="0" max="100" value="0"></li>
+					<li><input type="text" id="text" name="grade"></li></p>
+					
+					
+					
+					
 					<p><input type="submit" value="Calculate" class="button" /></p>
 				
 				</div>
 				
-				<div class="split-right">
-					<ul id="grades-added">
-						<p>list of grades here</p>
-						<p>list of grades here</p>
-						<p>list of grades here</p>
-						<p>list of grades here</p>
-						<p>list of grades here</p>
-						<p>list of grades here</p>
+				<div class="est-right">
+					<h4>Scores Needed</h4>
+					<p>
+					<ul id="needed-scores">
+						estimated grades list here
 					</ul>
+					</p>
 					
 				</div>	
 				</form>		
@@ -49,10 +108,21 @@
 			<p><a class="button" href="/home/"><span>Home</span></a></p>
 			<p><a class="button" href="/profile/"><span>Profile</span></a></p>
 			<p><a class="button" href="/gpa/"><span>GPA Calc</span></a></p>
-			<p><a class="button" href="/logout/"><span>Logout</span></a></p>	
+			<p><a class="button" href="/logout/"><span>Logout</span></a></p>
 		</div>
 	</div>
 </div>
 <div id="foot"></div>
-
+<script>
+	
+	document.getElementById("body").addEventListener("drop", onDrop, true)
+	
+	function onDrop(event) {
+	    var data = event.dataTransfer.getData('text/plain')
+	    event.preventDefault()
+	    alert('files: ' + event.dataTransfer.files + ' && data: ' + data + '.')
+	}
+</script>
 </body>
+
+

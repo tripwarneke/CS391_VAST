@@ -36,32 +36,6 @@ function addUser(userName, userEmail, userSchool, userPassword, cb){
 		}
 	});
 }
-function addAssignment(assignmentName, assignmentWeight, assignmentScore, cb){
-	console.log('adding a user to the DB');
-	var sql = 'insert into assignments values(default, $1, $2, $3, $4);';
-	client.query(sql, [userName, userEmail, userSchool, userPassword], function(err, rVal){
-		if(err !== null){
-			console.log('trouble storing new user, returned:'+rVal);
-			cb(-1);
-		}else{
-			//returned non-null
-			cb(1);
-		}
-	});
-}
-function addCourse(coursename, semester, year, instructor, cb) { //SEMESTER is SPRING, SUMMER, WINTER, FALL, year is yyyy
-	console.log('adding course:'+coursename);
-	var sql = 'insert into courses values(default, $1, $2, $3, $4);';
-	client.query(sql, [coursename, semester, year, instructor], function(err, rVal){
-		if(err !== null){
-			console.log('trouble storing new course, returned:' + rVal);
-			cb(-1);
-		}else{
-			cb(1);
-		}
-	});
-}
-
 function getUser(userID, cb){
 	var sql = 'select * from users where u_name = $1;';
 	client.query(sql, [username], function(err, result){
@@ -74,32 +48,85 @@ function getUser(userID, cb){
 }
 function getAllUsers(cb){
 	var sql = 'select * from users;';
-	client.query(sql, [],
-		function(err, result) {
-			if(err !== null){
-				cb(null);
-			}else{
-				console.log(JSON.stringify(result));
-				//console.log('returning rows');
-				cb(result.rows);
-			}
+	client.query(sql, [], function(err, result) {
+		if(err !== null){
+			cb(null);
+		}else{
+			console.log(JSON.stringify(result));
+			//console.log('returning rows');
+			cb(result.rows);
+		}
 	});
 }
 
+function addAssignment(courseID, assignmentName, assignmentWeight, assignmentScore, cb){
+	console.log('adding an assignment to the DB');
+	var sql = 'insert into assignments values(default, $1, $2, $3) returning a_aid;';
+	client.query(sql, [assignmentName, assignmentWeight, assignmentScore], function(err, rVal){
+		if(err !== null){
+			console.log('trouble adding assignment, returned:'+rVal);
+			cb(-1);
+		}else{
+			console.log('returned: rVal');
+			var sql2 = 'insert into homeworks values($1, rVal);';
+			client.query(sql2, [courseID], function(err, rVal){
+				if(err !== null){
+					console.log('trouble adding homeworks relations, returned:'+rVal);
+					cb(-1);
+				}else{
+					cb(1);
+				}
+			});
+		}
+	});
+}
 function getAssignments(userID, courseID, cb){
 	var sql = 'select A.a_aid, A.a_aname, A.a_weight, A.a_score, T.t_grade from assignments A, takes T, homeworks H where T.t_uid = $1 AND T.t_cid = $2 AND H.h_cid = T.t_cid;';
-	client.query(sql, [userID, courseID],
-		function(err, result) {
-			if(err !== null){
-				cb(null);
-			}else{
-				console.log(JSON.stringify(result));
-				//console.log('returning rows');
-				cb(result.rows);
-			}
-		});
+	client.query(sql, [userID, courseID],function(err, result) {
+		if(err !== null){
+			cb(null);
+		}else{
+			console.log(JSON.stringify(result));
+			//console.log('returning rows');
+			cb(result.rows);
+		}
+	});
 }
-
+function updateAssignment(aID, aName, aWeight, aScore, cb){
+	console.log('updating assignment='+aID);
+	var sql = 'update assignments SET a_name = $1, a_weight = $2, a_score = $3 WHERE a_aid = $4;';
+	client.query(sql, [aName, aWeight, aScore, aID], function(err, rVal){
+		if(err !== null){
+			console.log('trouble updating assignment, returned:'+rVal);
+			cb(-1);
+		}else{
+			//returned non-null
+			console.log('updated assignment');
+			cb(1);
+		}
+	});
+}
+function addCourse(userID, coursename, semester, year, instructor, cb) { //SEMESTER is SPRING, SUMMER, WINTER, FALL, year is yyyy
+	console.log('adding course:'+coursename);
+	var sql = 'insert into courses values(default, $1, $2, $3, $4) returning c_cid;';
+	client.query(sql, [coursename, semester, year, instructor], function(err, rVal){
+		if(err !== null){
+			console.log('trouble storing new course, returned:' + rVal);
+			cb(-1);
+		}else{
+			console.log('returned: rVal');
+			var sql2 = 'insert into takes values($1, rVal);';
+			client.query(sql2, [userID], function(err, rVal){
+				if(err !== null){
+					console.log('trouble adding takes relation, returned:'+rVal);
+					cb(-1);
+				}else{
+					cb(1);
+				}	
+			});	
+		}
+	});
+}
 function getCourses(userID, cb){
 	var sql = 'select C.c_cid, C.c_name, C.c_semester, C.c_year, C.c_instructor, T.t_grade from courses C, takes T where T.t_uid=$1 AND T.t_cid = C.c_cid;';
 	client.query(sql, [userID], function(err, result){
@@ -111,8 +138,56 @@ function getCourses(userID, cb){
 		}
 	});
 }
+function updateCourse(cID, cName, semester, year, instructor, cb){
+	console.log('updating course='+cID);
+	var sql = 'update courses SET c_name = $1, c_semester = $2, c_year = $3, c_instructor = $4 WHERE c_cid = $5;';
+	client.query(sql, [cName, semester, year, instructor, cID], function(err, rVal){
+		if(err !== null){
+			console.log('trouble updating course, returned:'+rVal);
+			cb(-1);
+		}else{
+			//returned non-null
+			console.log('updated course');
+			cb(1);
+		}
+	});
+}
+function addGrade(userID, cID, grade, credits, cb){
+	console.log('adding grade--'+userID+':'+cID+':'+grade+':'+credits);
+	var sql = 'insert into takes values($1, $2, $3, $4);';
+	client.query(sql, [userID, cID, grade, credits], function(err, rVal){
+		if(err !== null){
+			console.log('trouble adding grade, returned:'+rVal);
+			cb(-1);
+		}else{
+			//returned non-null
+			console.log('added grade');
+			cb(1);
+		}
+	});
+}
+function updateGrade(userID, cID, grade, credits, cb){
+	console.log('updating grade='+cID+':'+credits);
+	var sql = 'update takes SET t_grade = $1, t_credits = $2 WHERE t_uid = $3 AND t_cid = $4;';
+	client.query(sql, [grade, credits, userID, cID], function(err, rVal){
+		if(err !== null){
+			console.log('trouble updating grade, returned:'+rVal);
+			cb(-1);
+		}else{
+			//returned non-null
+			console.log('updated grade');
+			cb(1);
+		}
+	});
+}
+
+
+
+
+
+
 function getGPAs(userID, cb){
-	var sql = 'select t_grade, t_credits from takes where t_uid = $1;';
+	var sql = 'select t_grade, t_credits, t_cid from takes where t_uid = $1;';
 	client.query(sql, [userID], function(err, result){
 		if(err !== null){
 			console.log("error getting GPAs for " + userID);
@@ -187,8 +262,7 @@ function checkUser(username, password, cb){
 	client.query(sql, [username], function(err, result){
 		if(err !== null){
 				throw err;
-		}
-		else{
+		}else{
 			if(result.rows.length != 0){
 				console.log('found and returned user'+result.rows[0].u_name);
 				cb(result.rows[0]);
@@ -210,11 +284,9 @@ exports.login = function(req, res) {
 	client.query(sql, [username], function(err, result){
 		if(err !== null){
 				throw err;
-		}
-		else{
+		}else{
 			// if the user is exist
 			if(result.rows.length != 0){
-
 				var user = result.rows[0];
 				// check password
 				if(password != user.u_password){
@@ -239,14 +311,11 @@ exports.logout = function(req, res) {
 	res.render('home',{title:'Home',error:'Your account has been logged out successfully'});
 };
 
-
 // handle create page and create account
 exports.add_course = function(req, res) {
 	var course= req.body.course;
 	var grade = req.body.grade;
 	var credits = req.body.credits;
 	var semester = req.body.semester;
-	var year = req.body.year;
-	
+	var year = req.body.year;	
 };
-
