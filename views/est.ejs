@@ -1,7 +1,9 @@
 <!-- Profile -->
 
-<body>
-
+<body onload="init()">
+	<script type="text/javascript"
+		src="/javascripts/dropCSV.js">
+	</script>
 <div id="head">
 	<div id="top-bar">
 	<div id="top-logo"><img id="logo"></img></div>
@@ -11,7 +13,7 @@
 
 <div id ="body">
 	<div id="content">
-		<div id="leftBox" class="body-left">
+		<div id="leftBox"  class="body-left">
 			<h1>Grade Estimator</h1>
 			<form id="calculate" action="/calculate" method="post">
 				<div class="est-left">
@@ -20,7 +22,7 @@
 						<li><label for="assign">Assignment</label></li>
 						<li><label for="weight">Weight</label></li>
 						<li><label for="grade">Grade</label></li>
-					<p><li><select id="dropdown" name="assign">
+					<p><li><select id="dropdown" name="assign1">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -31,7 +33,7 @@
 					<li><input type="number" id="spin" name="weight1" step="5" min="0" max="100" value="0"></li>
 					<li><input type="text" id="text" name="grade1"></li></p>
 					
-					<p><li><select id="dropdown" name="assign">
+					<p><li><select id="dropdown" name="assign2">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -42,7 +44,7 @@
 					<li><input type="number" id="spin" name="weight2" step="5" min="0" max="100" value="0"></li>
 					<li><input type="text" id="text" name="grade2"></li></p>
 					
-					<p><li><select id="dropdown" name="assign">
+					<p><li><select id="dropdown" name="assign3">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -52,7 +54,7 @@
 					</select></li>				
 					<li><input type="number" id="spin" name="weight3" step="5" min="0" max="100" value="0"></li>
 					<li><input type="text" id="text" name="grade3"></li></p>
-					<p><li><select id="dropdown" name="assign">
+					<p><li><select id="dropdown" name="assign4">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -63,7 +65,7 @@
 					<li><input type="number" id="spin" name="weight4" step="5" min="0" max="100" value="0"></li>
 					<li><input type="text" id="text" name="grade4"></li></p>
 					
-					<p><li><select id="dropdown" name="assign">
+					<p><li><select id="dropdown" name="assign5">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -74,7 +76,7 @@
 					<li><input type="number" id="spin" name="weight5" step="5" min="0" max="100" value="0"></li>
 					<li><input type="text" id="text" name="grade5"></li></p>
 					
-					<p><li><select id="dropdown" name="assign">
+					<p><li><select id="dropdown" name="assign6">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -113,16 +115,6 @@
 	</div>
 </div>
 <div id="foot"></div>
-<script>
-	
-	document.getElementById("leftBox").addEventListener("drop", onDrop, true)
-	
-	function onDrop(event) {
-	    var data = event.dataTransfer.getData('text/plain')
-	    event.preventDefault()
-	    alert('files: ' + event.dataTransfer.files + ' && data: ' + data + '.')
-	}
-</script>
 </body>
 
 

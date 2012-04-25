@@ -1,5 +1,4 @@
 //place functions for client side interactions and checks here
-get_data();
 var interval_id;
 
 //set interval to 3 seconds
@@ -13,12 +12,6 @@ var stop_polling = function () {
 	}
 };
 
-$(function () {
-	get_data();
-	start_polling();// will poll every 3 seconds
-});
-
-
 var get_data = function () {
 	var req = $.ajax({
 		type: 'GET',
@@ -29,7 +22,10 @@ var get_data = function () {
 		//console.log('received data: ' + data.msg);
 		$('#name').text(user.u_name);
 		$('#school').text(user.u_school);
-		
-
 	});
 };
+
+//$(function () {
+//	get_data();
+//	start_polling();// will poll every 3 seconds
+//});

@@ -37,8 +37,8 @@ function addUser(userName, userEmail, userSchool, userPassword, cb){
 	});
 }
 function getUser(userID, cb){
-	var sql = 'select * from users where u_name = $1;';
-	client.query(sql, [username], function(err, result){
+	var sql = 'select * from users where u_uid = $1;';
+	client.query(sql, [userID], function(err, result){
 		if(err !== null || result.rows.length == 0){
 			cb(null);
 		}else{
@@ -180,6 +180,17 @@ function updateGrade(userID, cID, grade, credits, cb){
 		}
 	});
 }
+function getGrades(userID, cb){
+	console.log('getting grades for '+userID);
+	var sql = 'select * from takes where t_uid = $1;';
+	client.query(sql, [userID], function(err, result){
+		if(err !== null){
+			cb(null);
+		}else{
+			cb(result.rows);
+		}
+	});
+}
 
 // home page, and also login page
 exports.home = function(req, res) {
@@ -189,11 +200,46 @@ exports.home = function(req, res) {
 exports.profile = function(req, res) {
     var user  = req.session.user;
     if (!user) {
-		req.session.msg = 'Please login first';
+	req.session.msg = 'Please login first';
         res.redirect('/home');
         return;
     }
-	res.render('profile',{title:'Profile',user:user});
+	getGrades(user.u_uid, function(rows){
+		var gradeList = [];
+		var creditList = [];
+		console.log(JSON.stringify(rows));
+		for (var i=0; i<rows.length; i++){
+			gradeList.push(rows[i].t_grade);
+			creditList.push(rows[i].t_credits);
+		}
+		var gpaSum = 0;
+		var creditSum = 0;
+		for (var j=0; j<gradeList.length; j++){
+			var grade = gradeList[j];
+			var cred = creditList[j];
+			var cred = cred-0;
+			if(grade === "A ") gpaSum += 4*cred;
+			else if(grade === "A-") gpaSum += 3.75*cred;
+			else if(grade === "B+") gpaSum += 3.25*cred;
+			else if(grade === "B ") gpaSum += 3*cred;
+			else if(grade === "B-") gpaSum += 2.75*cred;
+			else if(grade === "C+") gpaSum += 2.25*cred;
+			else if(grade === "C ") gpaSum += 2*cred;			
+			else if(grade === "C-") gpaSum += 1.75*cred;
+			else if(grade === "D+") gpaSum += 1.25*cred;
+			else if(grade === "D ") gpaSum += 1*cred;
+			else if(grade === "D-") gpaSum += 0.75*cred;
+			creditSum += cred;	
+			//console.log('gpaSum='+gpaSum+' : creditSum='+creditSum);	
+		}
+		var gpa = gpaSum/creditSum;
+		res.render('profile',{	title:'Profile',
+		user:user.u_uid,
+		uName:user.u_name,
+		uSchool:user.u_school,
+		GPAReturn:gpa
+		});
+	});
 };
 exports.gpa = function(req, res) {
     // TODO: home
@@ -266,6 +312,7 @@ exports.login = function(req, res) {
 				return;
 			}
 			else{
+				user.u_password = "********";
 				req.session.user = user;
 				res.redirect('/profile');
 			}
