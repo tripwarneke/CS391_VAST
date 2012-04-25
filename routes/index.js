@@ -191,6 +191,36 @@ function getGrades(userID, cb){
 		}
 	});
 }
+function GPAfromRows(rows){
+	var gradeList = [];
+	var creditList = [];
+	//console.log(JSON.stringify(rows));
+	for (var i=0; i<rows.length; i++){
+		gradeList.push(rows[i].t_grade);
+		creditList.push(rows[i].t_credits);
+	}
+	var gpaSum = 0;
+	var creditSum = 0;
+	for (var j=0; j<gradeList.length; j++){
+		var grade = gradeList[j];
+		var cred = creditList[j];
+		var cred = cred-0;
+		if(grade === "A ") gpaSum += 4*cred;
+		else if(grade === "A-") gpaSum += 3.75*cred;
+		else if(grade === "B+") gpaSum += 3.25*cred;
+		else if(grade === "B ") gpaSum += 3*cred;
+		else if(grade === "B-") gpaSum += 2.75*cred;
+		else if(grade === "C+") gpaSum += 2.25*cred;
+		else if(grade === "C ") gpaSum += 2*cred;			
+		else if(grade === "C-") gpaSum += 1.75*cred;
+		else if(grade === "D+") gpaSum += 1.25*cred;
+		else if(grade === "D ") gpaSum += 1*cred;
+		else if(grade === "D-") gpaSum += 0.75*cred;
+		creditSum += cred;	
+		//console.log('gpaSum='+gpaSum+' : creditSum='+creditSum);	
+	}
+	return gpaSum/creditSum;
+}
 
 // home page, and also login page
 exports.home = function(req, res) {
@@ -205,34 +235,7 @@ exports.profile = function(req, res) {
         return;
     }
 	getGrades(user.u_uid, function(rows){
-		var gradeList = [];
-		var creditList = [];
-		console.log(JSON.stringify(rows));
-		for (var i=0; i<rows.length; i++){
-			gradeList.push(rows[i].t_grade);
-			creditList.push(rows[i].t_credits);
-		}
-		var gpaSum = 0;
-		var creditSum = 0;
-		for (var j=0; j<gradeList.length; j++){
-			var grade = gradeList[j];
-			var cred = creditList[j];
-			var cred = cred-0;
-			if(grade === "A ") gpaSum += 4*cred;
-			else if(grade === "A-") gpaSum += 3.75*cred;
-			else if(grade === "B+") gpaSum += 3.25*cred;
-			else if(grade === "B ") gpaSum += 3*cred;
-			else if(grade === "B-") gpaSum += 2.75*cred;
-			else if(grade === "C+") gpaSum += 2.25*cred;
-			else if(grade === "C ") gpaSum += 2*cred;			
-			else if(grade === "C-") gpaSum += 1.75*cred;
-			else if(grade === "D+") gpaSum += 1.25*cred;
-			else if(grade === "D ") gpaSum += 1*cred;
-			else if(grade === "D-") gpaSum += 0.75*cred;
-			creditSum += cred;	
-			//console.log('gpaSum='+gpaSum+' : creditSum='+creditSum);	
-		}
-		var gpa = gpaSum/creditSum;
+		var gpa = GPAfromRows(rows).toPrecision(3);
 		res.render('profile',{	title:'Profile',
 		user:user.u_uid,
 		uName:user.u_name,
@@ -242,8 +245,33 @@ exports.profile = function(req, res) {
 	});
 };
 exports.gpa = function(req, res) {
-    // TODO: home
-	res.render('gpa',{title:'GPA Calculator'});
+	var user = req.session.user;
+	getGrades(user.u_uid, function(rows){
+		var gpa = GPAfromRows(rows).toPrecision(3);
+		var credSum = 0;
+		var list = "";
+		if(rows.length > 0){
+			for(var i=0; i<rows.length; i++){
+				list += "<li> Grade:";
+				list += rows[i].t_grade;
+				list += "      Credits:";
+				list += rows[i].t_credits;
+				list += " </li><br>";
+				credSum += rows[i].t_credits-0;
+			}
+		}else{
+			list = "<li>list of current grades added on the fly here</li>";
+		}
+		res.render('gpa',{	title:'GPA Calculator',
+					user:user.u_uid,
+					uName:user.u_name,
+					uSchool:user.u_school,
+					GPA:gpa,
+					credits:credSum,
+					GPAList:list
+		});
+	});
+	//res.render('gpa',{title:'GPA Calculator'});
 };
 
 exports.est = function(req, res) {
@@ -334,8 +362,18 @@ exports.add_course = function(req, res) {
 	var grade = req.body.grade;
 	var credits = req.body.credits;
 	var semester = req.body.semester;
-	var year = req.body.year;	
+	var year = req.body.year;
+	
 };
+
+exports.addGrade = function(req, res) {
+	var grade = req.body.grade;
+	var credits = req.body.credits;
+	var userID = req.session.user.u_uid;
+	addGrade(userID, 0, grade, credits, function(result){
+		res.redirect('/gpa');
+	});
+}
 
 exports.get_data = function(req, res) {
 	// Set the content type:

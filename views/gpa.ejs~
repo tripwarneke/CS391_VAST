@@ -40,11 +40,10 @@
 				
 				<div class="split-right">
 				
-					<p id="current-gpa"><li><label for="current-gpa">Current GPA:</label></li>
-					<li><label for="credits">N/A</label></li></p>
+					<p id="current-gpa"><li><label for="current-gpa">Current GPA:<%=GPA%></label></li>
+					<li><label for="credits">Credits:<%=credits></label></li></p>
 					<ul id="grades-added">
-						<%= GPAReturn %>
-						<p>list of current grades added on the fly here</p>
+						<%- GPAList %>
 					</ul>
 					
 				</div>	
