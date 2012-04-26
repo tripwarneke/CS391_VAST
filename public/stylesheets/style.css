@@ -208,10 +208,10 @@ button,input[type="button"],input[type="reset"],input[type="submit"] {
 	text-align: center;
 	text-decoration: none;
 	vertical-align: middle;
-	align: center;
 	padding-left: 2.5em;
 	padding-right: 2.5em;
-	width: auto;
+	width: 60%;
+	height: 90%;
 	background: -webkit-linear-gradient(top, #306EFF, #15317E);
 	margin-right: auto;
 	margin-left: auto;
@@ -239,6 +239,8 @@ a.button {
 	text-align: center;
 	text-decoration: none;
 	vertical-align: middle;
+	width: 60%;
+	height: 90%;
 	padding: .5em;
 	padding-left: 2.5em;
 	padding-right: 2.5em;
@@ -252,6 +254,8 @@ a.button:active {
 	background-position: bottom right;
 	color: #000;
 	background: -webkit-linear-gradient(top, #15317E, #306EFF);
+	width: 60%;
+	height: 90%;
 	outline: none; /* hide dotted outline in Firefox */
 }
 
