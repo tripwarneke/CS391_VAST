@@ -3,49 +3,36 @@
 <body>
 
 <div id="head">
-	<div id="top-bar">
-	<div id="top-logo"><img id="logo"></img></div>	
-	</div>
+
 </div>
 
 <div id ="body">
-	<div id="content">
-		<div class="body-left">
-			<h1>Member Login</h1>
+	<div id="content-home">
+		
+			<h1>Welcome to GradeBook</h1><h3>chrome edition</h3>
 			
-			<div class="split-left-home">
-			<form id="login" action="/login" method="post">
-				<p><label for="username">Username</label></p>
-				<p><input type="text" id="username" name="username" required="required"></p>
+			
+			<form id="login" action="/login_view" method="get">
+			
+
 				
-				<p><label for="password">Password</label></p>
-				<p><input type="password" id="password" name="password" required="required"></p>
-				
-	
-			<p><input type="submit" value="Login" class="button" /></p>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<p><label for="student-user">Student User</label></p>
+			<p><input type="submit" id="student-login-button" value="Student" class="button" /></p>
 			</form>
 
-			</div>
-
 			<%- msg %>
-				
-			<div class="split-right">
-				<h1>Not a Member?</h1>
-		
-				<a href="/create">Sign Up!</a> 	
-			</div>
-			
-			</div>
-		<div class="body-right">
-		<h4>Welcome to</h4>
-		<h2>GradeBook</h2>
-		
-			<div class="side-logo">
-				<img></img>
-			</div>	
-			<h3>Chrome Edition</h3>	
-		</div>
+				<br/>
+			<br/>
+			<br/>
+			<br/>
+			<h5>created by The VAST Group (c) 2012</h5>
+			<h6>designers: Sean Avery, Anh Nguyen, Tristan Warneke</h6>
 	</div>
+
 
 </div>
 
