@@ -34,21 +34,22 @@
 						<option value="F">F</option>				
 					</select></li>				
 					<li><input type="number" id="spin" name="credits" min="0" max="120"></p></li>
-					<p><input type="submit" value="Add Grade" class="button" /></p>
-					<p><input type="submit" value="Save Grades" class="button" /></p>
+					<p><input type="submit" id="add-grade" value="Add Grade" class="button" /></p>
+					<p><input type="submit" id="save-grade" value="Save Grades" class="button" /></p>
 				
 				</div>
-				
+				</form>	
 				<div class="split-right">
 				
-					<p id="current-gpa"><li><label for="current-gpa">Current GPA:<%= GPA %></label></li>
-					<li><label for="credits">Credits:<%= credits %></label></li></p>
+					<p><li><label for="current-gpa">Current GPA: <%= GPA %></label></li></p>
+					<p><li><label for="credits">Credits: <%= credits %></label></li></p>
+					<p><li><label for="grades-added">Grades: </label></li></p>
 					<ul id="grades-added">
 						<%- GPAList %>
 					</ul>
 					
 				</div>	
-				</form>		
+				
 		</div>
 		<div class="body-right">
 			<h3>Navigation</h3>
