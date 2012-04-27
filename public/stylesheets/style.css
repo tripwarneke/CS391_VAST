@@ -46,7 +46,7 @@ p {
 	width: 55%;
 	padding-top: 5%;
 	padding-right: 5%;
-	padding-left: 10%;
+	padding-left: 2%;
 	padding-bottom: 15%;
 }
 
@@ -56,6 +56,7 @@ p {
 	padding-right: 10%;
 	padding-left: 5%;
 	padding-bottom: 5%;
+
 	background-image: url("/media/background-1rot.png");
 	background-size: 100% 100%;
 	border: 2px solid;
@@ -65,14 +66,15 @@ p {
 
 .split-left li {
 	display: inline-block;
-	padding-right: 50px;
-	width: 60px;
+	padding-right: 4%;
+	width: 90px;
 	text-align: center;
 }
 
 .split-left {
 	float: left;
-	padding-right: 75px;
+	width: 60%;
+	
 }
 
 .split-left-home {
@@ -82,10 +84,10 @@ p {
 
 .split-right {
 	float: left;
-	padding: 15px;
+	padding: 5px;
 	border-left: ridge;
 	border-left-width: 3px;
-	text-align: center;
+	text-align: left;
 }
 
 .est-left {
@@ -108,20 +110,23 @@ p {
 
 .est-right li {
 	display: inline-block;
-	padding-right: 15px;
 	text-align: center;
+	
 }
 
 .est-left li {
 	display: inline-block;
 	width: 115px;
+	
 	text-align: center;
+
 }
 
 .split-right li {
 	display: inline-block;
-	padding-right: 50px;
-	text-align: center;
+	padding-right: 2%;
+	text-align: left;
+	
 }
 
 #top-logo {
@@ -143,10 +148,10 @@ p {
 	padding-bottom: 100%;
 }
 
-#need-a, #need-amin, #need-bplus, #need-b, #need-bmin, #need-cplus, #need-c, #need-cmin, #need-dplus, #need-d, #need-dmin, #need-f 
-{
+#need-a,#need-amin,#need-bplus,#need-b,#need-bmin,#need-cplus,#need-c,#need-cmin,#need-dplus,#need-d,#need-dmin,#need-f
+	{
 	width: 60px;
-} 
+}
 
 #status>li {
 	padding-right: 100px;
@@ -169,8 +174,7 @@ button,input {
 }
 
 ul {
-	list-style: none
-	dislpay: inline-block;
+	list-style: none dislpay :   inline-block;
 }
 
 form li {
@@ -193,6 +197,11 @@ label {
 	align: center;
 }
 
+#add-course,#remove-course, #add-grade, #save-grade {
+	width: 35%%;
+	text-align: center;
+}
+
 button,input[type="button"],input[type="reset"],input[type="submit"] {
 	border: 1px solid #5E8819;
 	border-radius: 1em;
@@ -208,10 +217,10 @@ button,input[type="button"],input[type="reset"],input[type="submit"] {
 	text-align: center;
 	text-decoration: none;
 	vertical-align: middle;
-	align: center;
 	padding-left: 2.5em;
 	padding-right: 2.5em;
-	width: auto;
+	width: 60%;
+	height: 90%;
 	background: -webkit-linear-gradient(top, #306EFF, #15317E);
 	margin-right: auto;
 	margin-left: auto;
@@ -220,9 +229,11 @@ button,input[type="button"],input[type="reset"],input[type="submit"] {
 button:active,input[type="button"]:active,input[type="reset"]:active,input[type="submit"]:active
 	{
 	background-position: bottom right;
-	color: #000;
+	color: #000; background : -webkit-linear-gradient( top, #15317E,
+	#306EFF);
+	outline: none;
 	background: -webkit-linear-gradient(top, #15317E, #306EFF);
-	outline: none; /* hide dotted outline in Firefox */
+	/* hide dotted outline in Firefox */
 }
 
 a.button {
@@ -239,6 +250,7 @@ a.button {
 	text-align: center;
 	text-decoration: none;
 	vertical-align: middle;
+	width: 60%; height : 90%;
 	padding: .5em;
 	padding-left: 2.5em;
 	padding-right: 2.5em;
@@ -246,12 +258,14 @@ a.button {
 	background: -webkit-linear-gradient(top, #306EFF, #15317E);
 	margin-right: auto;
 	margin-left: auto;
+	height: 90%;
 }
 
 a.button:active {
 	background-position: bottom right;
 	color: #000;
 	background: -webkit-linear-gradient(top, #15317E, #306EFF);
-	outline: none; /* hide dotted outline in Firefox */
+	width: 60%; height : 90%;
+	outline: none;
+	height: 90%; /* hide dotted outline in Firefox */
 }
-
