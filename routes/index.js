@@ -219,6 +219,7 @@ function GPAfromRows(rows){
 		creditSum += cred;	
 		//console.log('gpaSum='+gpaSum+' : creditSum='+creditSum);	
 	}
+	creditSum = Math.max(creditSum, 1); //so we don't get a divide by zero :)
 	return gpaSum/creditSum;
 }
 
@@ -313,7 +314,8 @@ function checkUser(username, password, cb){
 	var sql = 'select * from users where u_name = $1;';
 	client.query(sql, [username], function(err, result){
 		if(err !== null){
-				throw err;
+				console.log('error on user creation');
+				cb(null);
 		}else{
 			if(result.rows.length != 0){
 				console.log('found and returned user'+result.rows[0].u_name);
