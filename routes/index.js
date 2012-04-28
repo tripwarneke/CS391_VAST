@@ -393,9 +393,7 @@ exports.addGrade = function(req, res) {
 
 
 exports.save_assignment = function(req, res) {
-	
-		res.redirect('/est');
-	
+	res.redirect('/est');
 }
 
 exports.get_data = function(req, res) {

@@ -55,32 +55,36 @@ $(function () {
 				}
 			}
 		}
-		//alert(typeof(w));
-		result = score*100/w;
+		alert(w);
+		result = Math.round(score*100/w);
 		$('#score').text(result);
-		var aEST = (93-score)/((100-w)/100);
-		var amEST = (90-score)/((100-w)/100);
-		var bpEST = (87-score)/((100-w)/100);
-		var bEST = (83-score)/((100-w)/100);
-		var bmEST = (80-score)/((100-w)/100);
-		var cpEST = (77-score)/((100-w)/100);
-		var cEST = (73-score)/((100-w)/100);
-		var cmEST = (70-score)/((100-w)/100);
-		var dpEST = (67-score)/((100-w)/100);
-		var dEST = (63-score)/((100-w)/100);
-		var dmEST = (60-score)/((100-w)/100);
+		var aEST = Math.round((93-score)/((100-w)/100));
+		var amEST = Math.round((90-score)/((100-w)/100));
+		var bpEST = Math.round((87-score)/((100-w)/100));
+		var bEST = Math.round((83-score)/((100-w)/100));
+		var bmEST = Math.round((80-score)/((100-w)/100));
+		var cpEST = Math.round((77-score)/((100-w)/100));
+		var cEST = Math.round((73-score)/((100-w)/100));
+		var cmEST = Math.round((70-score)/((100-w)/100));
+		var dpEST = Math.round((67-score)/((100-w)/100));
+		var dEST = Math.round((63-score)/((100-w)/100));
+		var dmEST = Math.round((60-score)/((100-w)/100));
+		if(w>=100){
+			$('#needed-scores').text('You do not have any assignment left to do');
+		}
 		
-		$('#a').text('A: '+aEST);
-		$('#am').text('A-: '+amEST);
-		$('#bp').text('B+: '+bpEST);
-		$('#b').text('B: '+bEST);
-		$('#bm').text('B-: '+bmEST);
-		$('#cp').text('C+: '+cpEST);
-		$('#c').text('C: '+cEST);
-		$('#cm').text('C-: '+cmEST);
-		$('#dp').text('D+: '+bpEST);
-		$('#d').text('D: '+bEST);
-		$('#dm').text('D-: '+bmEST);
+			
+			$('#a').text('A: '+aEST);
+			$('#am').text('A-: '+amEST);
+			$('#bp').text('B+: '+bpEST);
+			$('#b').text('B: '+bEST);
+			$('#bm').text('B-: '+bmEST);
+			$('#cp').text('C+: '+cpEST);
+			$('#c').text('C: '+cEST);
+			$('#cm').text('C-: '+cmEST);
+			$('#dp').text('D+: '+bpEST);
+			$('#d').text('D: '+bEST);
+			$('#dm').text('D-: '+bmEST);
 		
 	
 	});	
