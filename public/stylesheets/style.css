@@ -118,7 +118,12 @@ p {
 	border-left-width: 3px;
 }
 
-#text,#spin,#spin1,#spin2,#spin3,#spin4,#spin5,#spin6 {
+.spin, #text{
+	width: 60px;
+	text-align: center;
+}
+
+#spin,#spin1,#spin2,#spin3,#spin4,#spin5,#spin6 {
 	width: 60px;
 	text-align: center;
 }

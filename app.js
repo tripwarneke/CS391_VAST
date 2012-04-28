@@ -46,7 +46,6 @@ app.post('/create', routes.create);
 app.post('/login', routes.login);
 app.post('/add-course', routes.add_course);
 app.post('/save-assignment', routes.save_assignment);
-app.post('/calculate', routes.calculate);
 app.post('/addGrade', routes.addGrade);
 
 app.get('/get-data', routes.get_data);

@@ -15,14 +15,14 @@
 	<div id="content">
 		<div id="leftBox"  class="body-left">
 			<h1>Grade Estimator</h1>
-			<form id="calculate" action="/calculate" method="post">
+			<form id="assignments" action="/save-assignment" method="post">
 				<div class="est-left">
 				
 					<p>Select an Assignment</p>
 						<li><label for="assign">Assignment</label></li>
 						<li><label for="weight">Weight</label></li>
 						<li><label for="grade">Grade</label></li>
-					<p><li><select id="dropdown" name="assign1">
+					<p><li><select name="dropdown" id="assign1">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -30,10 +30,10 @@
 						<option value="Q">Quiz</option>
 						<option value="L">Lab</option>				
 					</select></li>				
-					<li><input type="number" id="spin" name="weight1" step="5" min="0" max="100" value="0"></li>
-					<li><input type="text" id="text" name="grade1"></li></p>
+					<li><input type="number" class="spin" id="weight1" step="5" min="0" max="100" value="0"></li>
+					<li><input type="number" class="spin" id="grade1"></li></p>
 					
-					<p><li><select id="dropdown" name="assign2">
+					<p><li><select name="dropdown" id="assign2">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -41,10 +41,10 @@
 						<option value="Q">Quiz</option>
 						<option value="L">Lab</option>				
 					</select></li>				
-					<li><input type="number" id="spin" name="weight2" step="5" min="0" max="100" value="0"></li>
-					<li><input type="text" id="text" name="grade2"></li></p>
+					<li><input type="number" class="spin" id="weight2" step="5" min="0" max="100" value="0"></li>
+					<li><input type="number" class="spin" id="grade2"></li></p>
 					
-					<p><li><select id="dropdown" name="assign3">
+					<p><li><select name="dropdown" id="assign3">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -52,9 +52,9 @@
 						<option value="Q">Quiz</option>
 						<option value="L">Lab</option>				
 					</select></li>				
-					<li><input type="number" id="spin" name="weight3" step="5" min="0" max="100" value="0"></li>
-					<li><input type="text" id="text" name="grade3"></li></p>
-					<p><li><select id="dropdown" name="assign4">
+					<li><input type="number" class="spin" id="weight3" step="5" min="0" max="100" value="0"></li>
+					<li><input type="number" class="spin" id="grade3"></li></p>
+					<p><li><select name="dropdown" id="assign4">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -62,10 +62,10 @@
 						<option value="Q">Quiz</option>
 						<option value="L">Lab</option>				
 					</select></li>				
-					<li><input type="number" id="spin" name="weight4" step="5" min="0" max="100" value="0"></li>
-					<li><input type="text" id="text" name="grade4"></li></p>
+					<li><input type="number" class="spin" id="weight4" step="5" min="0" max="100" value="0"></li>
+					<li><input type="number" class="spin" id="grade4"></li></p>
 					
-					<p><li><select id="dropdown" name="assign5">
+					<p><li><select name="dropdown" id="assign5">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -73,10 +73,10 @@
 						<option value="Q">Quiz</option>
 						<option value="L">Lab</option>				
 					</select></li>				
-					<li><input type="number" id="spin" name="weight5" step="5" min="0" max="100" value="0"></li>
-					<li><input type="text" id="text" name="grade5"></li></p>
+					<li><input type="number" class="spin" id="weight5" step="5" min="0" max="100" value="0"></li>
+					<li><input type="number" class="spin" id="grade5"></li></p>
 					
-					<p><li><select id="dropdown" name="assign6">
+					<p><li><select name="dropdown" id="assign6">
 						<option value="H">Homework</option>
 						<option value="M">Midterm</option>
 						<option value="P">Project</option>
@@ -84,18 +84,20 @@
 						<option value="Q">Quiz</option>
 						<option value="L">Lab</option>				
 					</select></li>				
-					<li><input type="number" id="spin" name="weight6" step="5" min="0" max="100" value="0"></li>
-					<li><input type="text" id="text" name="grade6"></li></p>
+					<li><input type="number" class="spin" id="weight6" step="5" min="0" max="100" value="0"></li>
+					<li><input type="number" class="spin" id="grade6"></li></p>
 					
 					
 					
 					
-					<p><input type="submit" value="Calculate" class="button" /></p>
+					
 					<p><input type="submit" value="Save Changes" class="button" /></p>
 				
 				</div>
-				
+					
 				<div class="est-right">
+					<h4>Your Current Score</h4>
+					<p id="score"></p>
 					<h4>Scores Needed</h4>
 					<p>
 					<ul id="needed-scores">
@@ -105,6 +107,7 @@
 					
 				</div>	
 				</form>		
+				<button id="calculate" class="button">Calculate</button>
 		</div>
 		<div class="body-right">
 			<h3>Navigation</h3>
