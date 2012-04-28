@@ -276,7 +276,6 @@ exports.gpa = function(req, res) {
 };
 
 exports.est = function(req, res) {
-    // TODO: home
 	res.render('est',{title:'Grade Estimator'});
 };
 
@@ -293,12 +292,12 @@ exports.create = function(req, res) {
 			var user = result;
 			if(user){
 				res.render('create', 
-							{ title: 'Create Account', error:'This username already exists, please pick another one' });
+							{ title: 'Create Account', msg:'This username already exists, please pick another one' });
 			}else{
 				addUser(username, email, school, password, 
 						function(err){
 						req.session.msg = 'Your account has been created successfully';
-						res.redirect('/home');
+						res.redirect('/login');
 				});
 			}
 			
@@ -306,7 +305,7 @@ exports.create = function(req, res) {
 	}
 	// just render a normal page if it is not a POST request
 	else{
-		res.render('create',{title:'Create Account',error:null});
+		res.render('create',{title:'Create Account',msg:null});
 	}
 };
 
@@ -333,12 +332,13 @@ function checkUser(username, password, cb){
 exports.login = function(req, res) {
 	var username = req.body.username;
 	var password = req.body.password;
+	if(username && password){
 	// query to find the user with provided username	
 	checkUser(username, password, function(result){
 		var user = result;
 		if(user){
 			if(password != user.u_password){
-				res.render('home',{title:'Home',msg:'password does not match'});
+				res.render('login_view',{title:'Login',msg:'password does not match'});
 				return;
 			}
 			else{
@@ -348,9 +348,13 @@ exports.login = function(req, res) {
 			}
 		}else{
 			console.log('cannot find user');
-			res.render('home',{title:'Home',msg:'username does not exist'});
+			res.render('login_view',{title:'Login',msg:'username does not exist'});
 		}
-	});	
+	});
+	}
+	else{
+		res.render('login_view',{title:'Login',msg:req.session.msg});
+	}
 };
 
 exports.logout = function(req, res) {
@@ -375,6 +379,21 @@ exports.addGrade = function(req, res) {
 	addGrade(userID, 0, grade, credits, function(result){
 		res.redirect('/gpa');
 	});
+}
+
+exports.save_assignment = function(req, res) {
+	var assign1 = req.body.assign1;
+	var assign2 = req.body.assign2;
+	var assign3 = req.body.assign3;
+	var assign4 = req.body.assign4;
+	var assign5 = req.body.assign5;
+	var assign6 = req.body.assign6;
+	if(assign1 || assign2 || assign3 || assign4 || assign5 || assign6){
+		//addAssignment(courseID, assignmentName, assignmentWeight, assignmentScore, cb);
+	}
+	else {
+		res.redirect('/est');
+	}
 }
 
 exports.get_data = function(req, res) {
