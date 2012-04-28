@@ -13,10 +13,12 @@ CREATE TABLE courses (
 CREATE SEQUENCE a_ass_seq;
 CREATE TABLE assignments (
 	a_aid int not null default nextval('a_ass_seq'),
+	a_cid int not null,
 	a_aname varchar(128) not null,
 	a_weight float not null default 1,
 	a_score float,
-	primary key (a_aid)
+	primary key (a_aid),
+	foreign key (a_cid) REFERENCES courses (c_cid)
 );
 
 CREATE SEQUENCE user_uid_seq;
