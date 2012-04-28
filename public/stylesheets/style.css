@@ -36,6 +36,21 @@ p {
 #content {
 	width: 100%;
 }
+#content-home {
+	width: 100%;
+	text-align:center;
+	background-image: url("/media/GradeApp_128.png");
+	background-repeat: no-repeat;
+	background-size: 10%;
+	background-position: 15% 25%;
+
+}
+#student-login-button {
+	width: 10%;
+	text-align: center;
+	align: center;
+
+}
 
 #body {
 	align: center;
@@ -197,7 +212,7 @@ label {
 	align: center;
 }
 
-#add-course,#remove-course, #add-grade, #save-grade {
+#add-course,#remove-course, #add-grade, #save-grade, #create-button {
 	width: 35%%;
 	text-align: center;
 }

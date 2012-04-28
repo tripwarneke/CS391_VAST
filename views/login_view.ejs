@@ -1,42 +1,53 @@
-<!-- Create Account-->
+<!-- Login -->
 
 <body>
 
 <div id="head">
 	<div id="top-bar">
-	<div id="top-logo"><img id="logo"></img></div>
+	<div id="top-logo"><img id="logo"></img></div>	
 	</div>
 </div>
 
 <div id ="body">
 	<div id="content">
 		<div class="body-left">
-			<h1>Create Account</h1>
-			<form id="login" action method="post">
-
-				<div class="split-left">
+			<h1>Member Login</h1>
+			
+			<div class="split-left-home">
+			<form id="login" action="/login" method="post">
 				<p><label for="username">Username</label></p>
 				<p><input type="text" id="username" name="username" required="required"></p>
 				
 				<p><label for="password">Password</label></p>
 				<p><input type="password" id="password" name="password" required="required"></p>
 				
-				<p><label for="school">School</label></p>
-				<p><input type="text" id="school" name="school" required="required"></p>
-				
-				<p><label for="email">Email</label></p>
-				<p><input type="email" id="email" name="email" required="required"></p>
-				
-				<p><input type="submit" id="create-button" value="Create" class="button" /></p>
-				</div>
-				
+	
+			<p><input type="submit" value="Login" class="button" /></p>
 			</form>
-		</div>
+
+			</div>
+
+			<%- msg %>
+				
+			<div class="split-right">
+				<h1>Not a Member?</h1>
+		
+				<a href="/create">Sign Up!</a> 	
+			</div>
+			
+			</div>
 		<div class="body-right">
-			<h3>Navigation</h3>
+		<h4>Welcome to</h4>
+		<h2>GradeBook</h2>
+		
+			<div class="side-logo">
+				<img></img>
+			</div>	
+			<h3>Chrome Edition</h3>	
 			<p><a class="button" href="/home/"><span>Home</span></a></p>
 		</div>
 	</div>
+
 </div>
 
 <div id="foot"></div>

@@ -32,7 +32,7 @@ app.configure('production', function(){
 // Bank Application Routes
 
 app.get('/', routes.home);
-app.get('/login', routes.home);
+app.get('/login_view', routes.login_view);
 app.get('/index', routes.home);
 app.get('/home', routes.home);
 
