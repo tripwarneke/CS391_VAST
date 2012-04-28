@@ -237,7 +237,7 @@ exports.profile = function(req, res) {
     }
 	getGrades(user.u_uid, function(rows){
 		var gpa = GPAfromRows(rows).toPrecision(3);
-		res.render('profile',{	title:'Profile',
+		res.render('profile',{	title:user.u_name+"'s Profile",
 		user:user.u_uid,
 		uName:user.u_name,
 		uSchool:user.u_school,
@@ -247,32 +247,37 @@ exports.profile = function(req, res) {
 };
 exports.gpa = function(req, res) {
 	var user = req.session.user;
-	getGrades(user.u_uid, function(rows){
-		var gpa = GPAfromRows(rows).toPrecision(3);
-		var credSum = 0;
-		var list = "";
-		if(rows.length > 0){
-			for(var i=0; i<rows.length; i++){
-				list += "<li> Grade:";
-				list += rows[i].t_grade;
-				list += "      Credits:";
-				list += rows[i].t_credits;
-				list += " </li><br>";
-				credSum += rows[i].t_credits-0;
+	if(user){
+		getGrades(user.u_uid, function(rows){
+			var gpa = GPAfromRows(rows).toPrecision(3);
+			var credSum = 0;
+			var list = "";
+			if(rows.length > 0){
+				for(var i=0; i<rows.length; i++){
+					list += "<li> Grade:";
+					list += rows[i].t_grade;
+					list += "      Credits:";
+					list += rows[i].t_credits;
+					list += " </li><br>";
+					credSum += rows[i].t_credits-0;
+				}
+			}else{
+				list = "<li>list of current grades added on the fly here</li>";
 			}
-		}else{
-			list = "<li>list of current grades added on the fly here</li>";
-		}
-		res.render('gpa',{	title:'GPA Calculator',
-					user:user.u_uid,
-					uName:user.u_name,
-					uSchool:user.u_school,
-					GPA:gpa,
-					credits:credSum,
-					GPAList:list
+			res.render('gpa',{	title:'GPA Calculator',
+						user:user.u_uid,
+						uName:user.u_name,
+						uSchool:user.u_school,
+						GPA:gpa,
+						credits:credSum,
+						GPAList:list
+			});
 		});
-	});
-	//res.render('gpa',{title:'GPA Calculator'});
+	}
+	else{
+		req.session.msg = 'Please login first';
+        res.redirect('/home');
+	}
 };
 
 exports.est = function(req, res) {
@@ -381,7 +386,7 @@ exports.addGrade = function(req, res) {
 	});
 }
 
-exports.save_assignment = function(req, res) {
+exports.calculate = function(req, res) {
 	var assign1 = req.body.assign1;
 	var assign2 = req.body.assign2;
 	var assign3 = req.body.assign3;
@@ -394,6 +399,13 @@ exports.save_assignment = function(req, res) {
 	else {
 		res.redirect('/est');
 	}
+}
+
+
+exports.save_assignment = function(req, res) {
+
+		res.redirect('/est');
+	
 }
 
 exports.get_data = function(req, res) {
