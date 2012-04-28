@@ -13,14 +13,16 @@ init();
 
 function init(){
 	console.log('connecting to VAST db');
-	pg.connect('tcp://'+user+":"+pword+'@'+host, function (err, cl){
+	client = new pg.Client('tcp://'+user+":"+pword+'@'+host);
+	client.connect();
+	/*pg.connect('tcp://'+user+":"+pword+'@'+host, function (err, cl){
 		if(err){
 			throw err;
 		}else{
 			console.log('connection established');
 			client = cl;
 		}
-	});
+	});*/
 }
 function addUser(userName, userEmail, userSchool, userPassword, cb){
 	console.log('adding a user to the DB');
@@ -352,6 +354,9 @@ exports.login = function(req, res) {
 		}
 	});	
 };
+exports.login_view = function(req, res) {
+	res.render('login_view', {title: 'LOGIN', msg:''});
+}
 
 exports.logout = function(req, res) {
 	req.session.destroy();
