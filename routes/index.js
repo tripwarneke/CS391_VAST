@@ -69,9 +69,10 @@ function addAssignment(courseID, assignmentName, assignmentWeight, assignmentSco
 			console.log('trouble adding assignment, returned:'+rVal);
 			cb(-1);
 		}else{
-			console.log('returned: rVal');
-			var sql2 = 'insert into homeworks values($1, rVal);';
-			client.query(sql2, [courseID], function(err, rVal){
+			var aid = rVal.rows[0].a_aid;
+			console.log('returned:'+ aid);
+			var sql2 = 'insert into homeworks values($1, $2);';
+			client.query(sql2, [courseID, aid], function(err, rVal){
 				if(err !== null){
 					console.log('trouble adding homeworks relations, returned:'+rVal);
 					cb(-1);
@@ -392,7 +393,31 @@ exports.addGrade = function(req, res) {
 }
 
 
-exports.save_assignment = function(req, res) {
+exports.save_assignment = function(req, res) {	
+	var weight1 = req.body.weight1;
+	var weight2 = req.body.weight2;
+	var weight3 = req.body.weight3;
+	var weight4 = req.body.weight4;
+	var weight5 = req.body.weight5;
+	var weight6 = req.body.weight6;
+	if(weight1>0){
+		addAssignment(1, req.body.assign1, weight1, req.body.grade1,function(){});
+	}
+	if(weight2>0){
+		addAssignment(1, req.body.assign2, weight2, req.body.grade2,function(){});
+	}
+	if(weight3>0){
+		addAssignment(1, req.body.assign3, weight3, req.body.grade3,function(){});
+	}	
+	if(weight4>0){
+		addAssignment(1, req.body.assign4, weight4, req.body.grade4,function(){});
+	}
+	if(weight5>0){
+		addAssignment(1, req.body.assign5, weight5, req.body.grade5,function(){});
+	}
+	if(weight6>0){
+		addAssignment(1, req.body.assign6, weight6, req.body.grade6,function(){});
+	}
 	res.redirect('/est');
 }
 

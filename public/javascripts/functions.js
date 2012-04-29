@@ -70,20 +70,22 @@ $(function () {
 		var dEST = (63-score)/((100-w)/100);
 		var dmEST = (60-score)/((100-w)/100);
 		if(w>=100){
-			$('#a').text('You do not have any assignment left to do');
+			$('#grade').text('You do not have any assignment left to do');
+			$('#needed-scores').text('');
 		}
 		else{
+			
 			$('#a').text('A: '+Math.round(aEST*100)/100);
-			$('#am').text('A-: '+Math.round(amEST)/100);
-			$('#bp').text('B+: '+Math.round(bpEST));
-			$('#b').text('B: '+Math.round(bEST));
-			$('#bm').text('B-: '+Math.round(bmEST));
-			$('#cp').text('C+: '+Math.round(cpEST));
-			$('#c').text('C: '+Math.round(cEST));
-			$('#cm').text('C-: '+Math.round(cmEST));
-			$('#dp').text('D+: '+Math.round(bpEST));
-			$('#d').text('D: '+Math.round(bEST));
-			$('#dm').text('D-: '+Math.round(bmEST));
+			$('#am').text('A-: '+Math.round(amEST*100)/100);
+			$('#bp').text('B+: '+Math.round(bpEST*100)/100);
+			$('#b').text('B: '+Math.round(bEST*100)/100);
+			$('#bm').text('B-: '+Math.round(bmEST*100)/100);
+			$('#cp').text('C+: '+Math.round(cpEST*100)/100);
+			$('#c').text('C: '+Math.round(cEST*100)/100);
+			$('#cm').text('C-: '+Math.round(cmEST*100)/100);
+			$('#dp').text('D+: '+Math.round(dpEST*100)/100);
+			$('#d').text('D: '+Math.round(dEST*100)/100);
+			$('#dm').text('D-: '+Math.round(dmEST*100)/100);
 		}
 	
 	});	
