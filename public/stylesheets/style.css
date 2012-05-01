@@ -273,19 +273,18 @@ a.button {
 	width: 60%; height : 90%;
 	padding: .5em;
 	padding-left: 2.5em;
-	padding-right: 2.5em;
-	width: 75px;
+	padding-right: 2.5em;	
 	background: -webkit-linear-gradient(top, #306EFF, #15317E);
 	margin-right: auto;
 	margin-left: auto;
-	height: 90%;
 }
 
 a.button:active {
 	background-position: bottom right;
 	color: #000;
 	background: -webkit-linear-gradient(top, #15317E, #306EFF);
-	width: 60%; height : 90%;
+	width: 60%; 
+	height : 90%;
 	outline: none;
 	height: 90%; /* hide dotted outline in Firefox */
 }
