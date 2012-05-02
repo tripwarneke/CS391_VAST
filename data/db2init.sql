@@ -37,16 +37,16 @@ CREATE TABLE takes (
 	t_cid int,
 	t_grade char(2),
 	t_credits int,
-	foreign key (t_uid) REFERENCES users (u_uid),
-	foreign key (t_cid) REFERENCES courses (c_cid)
+	foreign key (t_uid) REFERENCES users (u_uid) ON DELETE CASCADE,
+	foreign key (t_cid) REFERENCES courses (c_cid) ON DELETE CASCADE
 );
 
 
 CREATE TABLE homeworks (
 	h_cid int not null,
 	h_aid int not null,
-	foreign key (h_cid) REFERENCES courses(c_cid),
-	foreign key (h_aid) REFERENCES assignments(a_aid)
+	foreign key (h_cid) REFERENCES courses(c_cid) ON DELETE CASCADE,
+	foreign key (h_aid) REFERENCES assignments(a_aid) ON DELETE CASCADE
 );
 
 

@@ -13,10 +13,12 @@ CREATE TABLE courses (
 CREATE SEQUENCE a_ass_seq;
 CREATE TABLE assignments (
 	a_aid int not null default nextval('a_ass_seq'),
+	a_cid int not null,
 	a_aname varchar(128) not null,
 	a_weight float not null default 1,
 	a_score float,
-	primary key (a_aid)
+	primary key (a_aid),
+	foreign key (a_cid) REFERENCES courses (c_cid)
 );
 
 CREATE SEQUENCE user_uid_seq;
@@ -35,32 +37,17 @@ CREATE TABLE takes (
 	t_cid int,
 	t_grade char(2),
 	t_credits int,
-	foreign key (t_uid) REFERENCES users (u_uid),
-	foreign key (t_cid) REFERENCES courses (c_cid)
+	foreign key (t_uid) REFERENCES users (u_uid) ON DELETE CASCADE,
+	foreign key (t_cid) REFERENCES courses (c_cid) ON DELETE CASCADE
 );
 
 
 CREATE TABLE homeworks (
 	h_cid int not null,
 	h_aid int not null,
-	foreign key (h_cid) REFERENCES courses(c_cid),
-	foreign key (h_aid) REFERENCES assignments(a_aid)
+	foreign key (h_cid) REFERENCES courses(c_cid) ON DELETE CASCADE,
+	foreign key (h_aid) REFERENCES assignments(a_aid) ON DELETE CASCADE
 );
-
-CREATE SEQUENCE g_grade_seq;
-CREATE TABLE gradebook (
-	g_gid int not null default nextval('g_grade_seq'),
-	g_uid int not null,
-	g_grade char(2
-) not null,
-	g_creds float not null,
-	g_scale float not null default 4,
-	g_semester char(8) not null,
-	g_year int not null,
-	primary key (g_gid),
-	foreign key (g_uid) REFERENCES users (u_uid)
-);
-
 
 
 -- Test Data:
