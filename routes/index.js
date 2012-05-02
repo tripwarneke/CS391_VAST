@@ -109,6 +109,19 @@ function updateAssignment(aID, aName, aWeight, aScore, cb){
 		}
 	});
 }
+function removeAssignment(aID, cb){
+	console.log('removing assignment='+aID);
+	var sql = 'delete from assignments where a_aid = $1;';
+	client.query(sql, [aID], function(err, rVal){
+		if(err !== null){
+			console.log('trouble deleting assignments for '+aID+' returned: '+rVal);
+			cb(-1);
+		}else{
+			console.log('removed');
+			cb(1);
+		}
+	});
+}
 function addCourse(userID, coursename, semester, year, instructor, cb) { //SEMESTER is SPRING, SUMMER, WINTER, FALL, year is yyyy
 	console.log('adding course:'+coursename);
 	var sql = 'insert into courses values(default, $1, $2, $3, $4) returning c_cid;';
@@ -155,6 +168,19 @@ function updateCourse(cID, cName, semester, year, instructor, cb){
 		}
 	});
 }
+function removeCourse(cID, cb){
+	console.log('removing course='+cID);
+	var sql = 'delete from courses where c_cid = $1;';
+	client.query(sql, [cID], function(err, rVal){
+		if(err !== null){
+			console.log('trouble deleting assignments for '+aID+' returned: '+rVal);
+			cb(-1);
+		}else{
+			console.log('removed');
+			cb(1);
+		}
+	});
+}
 function addGrade(userID, cID, grade, credits, cb){
 	console.log('adding grade--'+userID+':'+cID+':'+grade+':'+credits);
 	var sql = 'insert into takes values($1, $2, $3, $4);';
@@ -191,6 +217,20 @@ function getGrades(userID, cb){
 			cb(null);
 		}else{
 			cb(result.rows);
+		}
+	});
+}
+function removeGrade(userID, cID, cb){
+	console.log('removing grade for '+userID+' for course ' +cID);
+	var sql = 'delete from takes where t_uid = $1 AND t_cid = $2;';
+	client.query(sql, [userID, cID], function(err, rVal){
+		if(err !== null){
+			console.log('trouble adding grade, returned:'+rVal);
+			cb(-1);
+		}else{
+			//returned non-null
+			console.log('added grade');
+			cb(1);
 		}
 	});
 }
