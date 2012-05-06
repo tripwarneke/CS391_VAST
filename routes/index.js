@@ -231,6 +231,15 @@ exports.home = function(req, res) {
     // TODO: home
 	res.render('home',{title:'Home', msg:req.session.msg});
 };
+
+function courseList(courses){
+	var result;
+	for(var i = 0; i < courses.length; i++){
+		result += courses[i].c_name + '<br>';
+	}
+	return result;
+}
+
 exports.profile = function(req, res) {
     var user  = req.session.user;
     if (!user) {
@@ -238,16 +247,22 @@ exports.profile = function(req, res) {
         res.redirect('/home');
         return;
     }
-	getGrades(user.u_uid, function(rows){
-		var gpa = GPAfromRows(rows).toPrecision(3);
-		res.render('profile',{	title:user.u_name+"'s Profile",
-		user:user.u_uid,
-		uName:user.u_name,
-		uSchool:user.u_school,
-		GPAReturn:gpa
+	getCourses(user.u_uid, function(rows){
+		var courses = courseList(rows);
+		getGrades(user.u_uid, function(rows){
+			var gpa = GPAfromRows(rows).toPrecision(3);
+			res.render('profile',{	title:user.u_name+"'s Profile",
+			user:user.u_uid,
+			uName:user.u_name,
+			uSchool:user.u_school,
+			GPAReturn:gpa,
+			courses:courses
+			});
 		});
 	});
+
 };
+
 exports.gpa = function(req, res) {
 	var user = req.session.user;
 	if(user){
