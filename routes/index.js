@@ -300,12 +300,14 @@ exports.gpa = function(req, res) {
 	}
 };
 
-function dropList(courses){
+function dropList(courses, cid){
 	var result = '';
 	for(var i = 0; i < courses.length; i++){
-		result += '<option value="'+courses[i].c_cid+ '">' + courses[i].c_name + '</option>';
+		if(cid == courses[i].c_cid)
+			result += '<option selected value="'+courses[i].c_cid+ '" selec>' + courses[i].c_name + '</option>';
+		else
+			result += '<option value="'+courses[i].c_cid+ '">' + courses[i].c_name + '</option>';
 	}
-	console.log(courses.length);
 	return result;
 };
 
@@ -319,9 +321,36 @@ exports.est = function(req, res) {
 	var cid = req.params.cid;
 	req.session.cid = cid;
 	getCourses(user.u_uid, function(courses){
-		res.render('est',{title:'Grade Estimator',
-						courses:dropList(courses)
-		
+	
+		getAssignments(user.u_uid, cid, function(assignments){
+			var ass1;
+			var ass2;
+			var ass3;
+			var ass4;
+			var ass5;
+			var ass6;
+			if (assignments[0]){
+				ass1.a_aid = assignments[0].a_aid;
+				ass1.a_aname = assignments[0].a_aname;
+				ass1.a_weight = assignments[0].a_weight;
+				ass1.a_score= assignments[0].a_score;
+			}
+			if (assignments[1]){
+				ass2.a_aid = assignments[1].a_aid;
+				ass2.a_aname = assignments[1].a_aname;
+				ass2.a_weight = assignments[1].a_weight;
+				ass2.a_score= assignments[1].a_score;
+			}
+			if (assignments[2]){
+				ass3.a_aid = assignments[2].a_aid;
+				ass3.a_aname = assignments[2].a_aname;
+				ass3.a_weight = assignments[2].a_weight;
+				ass3.a_score= assignments[2].a_score;
+			}
+			res.render('est',{title:'Grade Estimator',
+							courses:dropList(courses, cid)
+			
+			});
 		});
 	});
 	
@@ -424,7 +453,8 @@ exports.add_grade = function(req, res) {
 };
 
 
-exports.save_assignment = function(req, res) {	
+exports.save_assignment = function(req, res) {
+	var cid = req.session.cid;
 	var weight1 = req.body.weight1;
 	var weight2 = req.body.weight2;
 	var weight3 = req.body.weight3;
@@ -432,24 +462,24 @@ exports.save_assignment = function(req, res) {
 	var weight5 = req.body.weight5;
 	var weight6 = req.body.weight6;
 	if(weight1>0){
-		addAssignment(1, req.body.assign1, weight1, req.body.grade1,function(){});
+		addAssignment(cid, req.body.assign1, weight1, req.body.grade1,function(){});
 	}
 	if(weight2>0){
-		addAssignment(1, req.body.assign2, weight2, req.body.grade2,function(){});
+		addAssignment(cid, req.body.assign2, weight2, req.body.grade2,function(){});
 	}
 	if(weight3>0){
-		addAssignment(1, req.body.assign3, weight3, req.body.grade3,function(){});
+		addAssignment(cid, req.body.assign3, weight3, req.body.grade3,function(){});
 	}	
 	if(weight4>0){
-		addAssignment(1, req.body.assign4, weight4, req.body.grade4,function(){});
+		addAssignment(cid, req.body.assign4, weight4, req.body.grade4,function(){});
 	}
 	if(weight5>0){
-		addAssignment(1, req.body.assign5, weight5, req.body.grade5,function(){});
+		addAssignment(cid, req.body.assign5, weight5, req.body.grade5,function(){});
 	}
 	if(weight6>0){
-		addAssignment(1, req.body.assign6, weight6, req.body.grade6,function(){});
+		addAssignment(cid, req.body.assign6, weight6, req.body.grade6,function(){});
 	}
-	res.redirect('/est');
+	res.redirect('/est/'+cid);
 };
 
 exports.add_course = function(req, res) {

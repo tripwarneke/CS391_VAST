@@ -25,9 +25,8 @@ var get_data = function () {
 	});
 };
 
-$(function () {
-	$('#calculate').bind('click', function(event){
-		var w = 0;
+function calculate(){
+	var w = 0;
 		var score = 0;
 		var result= 0;
 		
@@ -71,10 +70,20 @@ $(function () {
 		var dmEST = (60-score)/((100-w)/100);
 		if(w>=100){
 			$('#grade').text('You do not have any assignment left to do');
-			$('#needed-scores').text('');
+			$('#a').text('');
+			$('#am').text('');
+			$('#bp').text('');
+			$('#b').text('');
+			$('#bm').text('');
+			$('#cp').text('');
+			$('#c').text('');
+			$('#cm').text('');
+			$('#dp').text('');
+			$('#d').text('');
+			$('#dm').text('');
 		}
 		else{
-			
+			$('#grade').text('');
 			$('#a').text('A: '+Math.round(aEST*100)/100);
 			$('#am').text('A-: '+Math.round(amEST*100)/100);
 			$('#bp').text('B+: '+Math.round(bpEST*100)/100);
@@ -87,6 +96,25 @@ $(function () {
 			$('#d').text('D: '+Math.round(dEST*100)/100);
 			$('#dm').text('D-: '+Math.round(dmEST*100)/100);
 		}
+}
+
+function reloadEST(cid) {
+	var req = $.ajax({
+		type: 'GET',
+		url : '/est/'+cid
+	});
+	req.done(function (data) {
+
+	});
+};
+
+$(function () {
+	$('#calculate').bind('click', function(event){
+		calculate();
+	});
+	$('#course-select').change(function(event){
+		reloadEST($('#course-select').val());
+		//alert($('#course-select').val());
+	});
 	
-	});	
 });
