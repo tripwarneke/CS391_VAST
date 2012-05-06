@@ -217,8 +217,8 @@ label {
 	align: center;
 }
 
-#add-course,#remove-course, #add-grade, #save-grade, #create-button {
-	width: 35%%;
+#add-course,#remove-course, #add-grade, #save-grade, #create-button, #course-name {
+	width: 35%;
 	text-align: center;
 }
 
@@ -239,7 +239,7 @@ button,input[type="button"],input[type="reset"],input[type="submit"] {
 	vertical-align: middle;
 	padding-left: 2.5em;
 	padding-right: 2.5em;
-	width: 60%;
+	width: 50%;
 	height: 90%;
 	background: -webkit-linear-gradient(top, #306EFF, #15317E);
 	margin-right: auto;

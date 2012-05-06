@@ -381,7 +381,7 @@ exports.login = function(req, res) {
 };
 exports.login_view = function(req, res) {
 	res.render('login_view', {title: 'LOGIN', msg:''});
-}
+};
 
 exports.logout = function(req, res) {
 	req.session.destroy();
@@ -405,7 +405,7 @@ exports.addGrade = function(req, res) {
 	addGrade(userID, 0, grade, credits, function(result){
 		res.redirect('/gpa');
 	});
-}
+};
 
 
 exports.save_assignment = function(req, res) {	
@@ -434,7 +434,7 @@ exports.save_assignment = function(req, res) {
 		addAssignment(1, req.body.assign6, weight6, req.body.grade6,function(){});
 	}
 	res.redirect('/est');
-}
+};
 
 exports.get_data = function(req, res) {
 	// Set the content type:
