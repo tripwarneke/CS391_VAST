@@ -12,8 +12,9 @@
 		<div id="leftBox"  class="body-left">
 			<h1>Grade Estimator</h1>
 				<div class="est-left">
+					<p>Select a Course <select id="course-select" name="course"><%- courses %></select></p>
 					<form id="assignments" action="/save-assignment" method="post">
-					<p>Select a Course <select id="course-select" name="course"></select></p>
+					
 						<p>Add Assignments type, weight, and grade</p>
 							<li><label for="assign">Assignment</label></li>
 							<li><label for="weight">Weight</label></li>

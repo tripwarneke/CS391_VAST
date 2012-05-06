@@ -41,12 +41,14 @@ app.get('/logout', routes.logout);
 app.get('/profile', routes.profile);
 app.get('/gpa', routes.gpa);
 app.get('/est', routes.est);
+app.get('/est/:cid', routes.est);
 
 app.post('/create', routes.create);
 app.post('/login', routes.login);
 app.post('/add-course', routes.add_course);
 app.post('/save-assignment', routes.save_assignment);
-app.post('/addGrade', routes.addGrade);
+app.post('/addGrade', routes.add_grade);
+app.post('/add-course', routes.add_gourse);
 
 app.get('/get-data', routes.get_data);
 

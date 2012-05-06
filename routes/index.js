@@ -117,9 +117,10 @@ function addCourse(userID, coursename, semester, year, instructor, cb) { //SEMES
 			console.log('trouble storing new course, returned:' + rVal);
 			cb(-1);
 		}else{
-			console.log('returned: rVal');
-			var sql2 = 'insert into takes values($1, rVal);';
-			client.query(sql2, [userID], function(err, rVal){
+			var cid = rVal.rows[0].c_cid;
+			console.log('returned: ' + cid);
+			var sql2 = 'insert into takes values($1, $2);';
+			client.query(sql2, [userID, cid], function(err, rVal){
 				if(err !== null){
 					console.log('trouble adding takes relation, returned:'+rVal);
 					cb(-1);
@@ -233,9 +234,9 @@ exports.home = function(req, res) {
 };
 
 function courseList(courses){
-	var result;
+	var result='';
 	for(var i = 0; i < courses.length; i++){
-		result += courses[i].c_name + '<br>';
+		result += '<a href="/est/' + courses[i].c_cid+ '">' +courses[i].c_name + '</a><br>';
 	}
 	return result;
 }
@@ -247,10 +248,11 @@ exports.profile = function(req, res) {
         res.redirect('/home');
         return;
     }
-	getCourses(user.u_uid, function(rows){
-		var courses = courseList(rows);
-		getGrades(user.u_uid, function(rows){
-			var gpa = GPAfromRows(rows).toPrecision(3);
+	getCourses(user.u_uid, function(courses){
+		var courses = courseList(courses);
+		getGrades(user.u_uid, function(grades){
+			var gpa = GPAfromRows(grades).toPrecision(3);
+
 			res.render('profile',{	title:user.u_name+"'s Profile",
 			user:user.u_uid,
 			uName:user.u_name,
@@ -298,8 +300,31 @@ exports.gpa = function(req, res) {
 	}
 };
 
+function dropList(courses){
+	var result = '';
+	for(var i = 0; i < courses.length; i++){
+		result += '<option value="'+courses[i].c_cid+ '">' + courses[i].c_name + '</option>';
+	}
+	console.log(courses.length);
+	return result;
+};
+
 exports.est = function(req, res) {
-	res.render('est',{title:'Grade Estimator'});
+	var user  = req.session.user;
+    if (!user) {
+	req.session.msg = 'Please login first';
+        res.redirect('/home');
+        return;
+    }
+	var cid = req.params.cid;
+	req.session.cid = cid;
+	getCourses(user.u_uid, function(courses){
+		res.render('est',{title:'Grade Estimator',
+						courses:dropList(courses)
+		
+		});
+	});
+	
 };
 
 // handle create page and create account
@@ -388,17 +413,8 @@ exports.logout = function(req, res) {
 	res.render('home',{title:'Home',msg:'Your account has been logged out successfully'});
 };
 
-// handle create page and create account
-exports.add_course = function(req, res) {
-	var course= req.body.course;
-	var grade = req.body.grade;
-	var credits = req.body.credits;
-	var semester = req.body.semester;
-	var year = req.body.year;
-	
-};
 
-exports.addGrade = function(req, res) {
+exports.add_grade = function(req, res) {
 	var grade = req.body.grade;
 	var credits = req.body.credits;
 	var userID = req.session.user.u_uid;
@@ -435,6 +451,20 @@ exports.save_assignment = function(req, res) {
 	}
 	res.redirect('/est');
 };
+
+exports.add_course = function(req, res) {
+	var user  = req.session.user;
+    if (!user) {
+	req.session.msg = 'Please login first';
+        res.redirect('/home');
+        return;
+    }
+	var cname = req.body.cname;
+	addCourse(user.u_uid, cname, 'SPRING', '2012', 'Tim', function(){ //SEMESTER is SPRING, SUMMER, WINTER, FALL, year is yyyy
+		res.redirect('/profile');
+	});
+};
+
 
 exports.get_data = function(req, res) {
 	// Set the content type:
