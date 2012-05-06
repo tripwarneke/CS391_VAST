@@ -100,11 +100,23 @@ function calculate(){
 
 function reloadEST(cid) {
 	var req = $.ajax({
-		type: 'GET',
-		url : '/est/'+cid
+		type: 'POST',
+		url : '/get-assignments',
+		data: { 'cid' : cid }
 	});
+	
 	req.done(function (data) {
+		var assignments = data.assignments;
+		if(assignments.length != 0){
 
+		for (var i = 0; i<assignments.length; i++){
+			if(assignments[i]){
+				$('#assign'+(i+1)).val(assignments[i].a_aname);
+				$('#weight'+(i+1)).val(assignments[i].a_weight);
+				$('#grade'+(i+1)).val(assignments[i].a_score);
+			}
+		}
+		}
 	});
 };
 

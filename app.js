@@ -50,7 +50,7 @@ app.post('/save-assignment', routes.save_assignment);
 app.post('/addGrade', routes.add_grade);
 app.post('/add-course', routes.add_gourse);
 
-app.get('/get-assignments', routes.get_assignments);
+app.post('/get-assignments', routes.get_assignments);
 
 
 //almost forgot to set this back to 3000

@@ -84,12 +84,13 @@ function addAssignment(courseID, assignmentName, assignmentWeight, assignmentSco
 	});
 }
 function getAssignments(userID, courseID, cb){
-	var sql = 'select A.a_aid, A.a_aname, A.a_weight, A.a_score, T.t_grade from assignments A, takes T, homeworks H where T.t_uid = $1 AND T.t_cid = $2 AND H.h_cid = T.t_cid;';
-	client.query(sql, [userID, courseID],function(err, result) {
+	//var sql = 'select A.a_aid, A.a_aname, A.a_weight, A.a_score, T.t_grade from assignments A, takes T, homeworks H where T.t_uid = $1 AND T.t_cid = $2 AND H.h_cid = T.t_cid;';
+	var sql = 'select A.a_aid, A.a_aname, A.a_weight, A.a_score from assignments A, homeworks H where  H.h_cid = $1 AND H.h_aid = A.a_aid;';
+	client.query(sql, [courseID],function(err, result) {
 		if(err !== null){
 			cb(null);
 		}else{
-			console.log(JSON.stringify(result));
+			//console.log(JSON.stringify(result));
 			//console.log('returning rows');
 			cb(result.rows);
 		}
@@ -361,7 +362,10 @@ exports.est = function(req, res) {
 	var cid = req.params.cid;
 	req.session.cid = cid;
 	getCourses(user.u_uid, function(courses){
-	
+			res.render('est',{title:'Grade Estimator',
+							courses:dropList(courses, cid)
+			});
+			/*
 		getAssignments(user.u_uid, cid, function(assignments){
 			var ass1;
 			var ass2;
@@ -387,11 +391,9 @@ exports.est = function(req, res) {
 				ass3.a_weight = assignments[2].a_weight;
 				ass3.a_score= assignments[2].a_score;
 			}
-			res.render('est',{title:'Grade Estimator',
-							courses:dropList(courses, cid)
-			
-			});
+
 		});
+		*/
 	});
 	
 };
@@ -519,7 +521,7 @@ exports.save_assignment = function(req, res) {
 	if(weight6>0){
 		addAssignment(cid, req.body.assign6, weight6, req.body.grade6,function(){});
 	}
-	res.redirect('/est/'+cid);
+	res.redirect('/profile');
 };
 
 exports.add_course = function(req, res) {
@@ -536,13 +538,23 @@ exports.add_course = function(req, res) {
 };
 
 
-exports.get_data = function(req, res) {
+exports.get_assignments = function(req, res) {
 	// Set the content type:
-	res.contentType('application/json');
+	
 
-	console.log('get data called ' );
-
-	// Send the result:
-	res.send({ 'user' : req.session.user});
+	console.log('get assignments called');
+	var data = req.body;
+	
+	var cid = data.cid;
+	
+	getAssignments(req.session.user.u_uid, cid, function(result){
+		
+		res.contentType('application/json');
+		res.send({ 'assignments' : result});
+		console.log('length' +result.length);
+		console.log(result)
+	});
+	
+	
 	
 };
