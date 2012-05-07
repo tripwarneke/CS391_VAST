@@ -42,6 +42,7 @@ app.get('/profile', routes.profile);
 app.get('/gpa', routes.gpa);
 app.get('/est', routes.est);
 app.get('/est/:cid', routes.est);
+app.get('/remove-course/:cid', routes.remove_course);
 
 app.post('/create', routes.create);
 app.post('/login', routes.login);

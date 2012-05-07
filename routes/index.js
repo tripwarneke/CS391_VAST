@@ -98,10 +98,11 @@ function getAssignments(userID, courseID, cb){
 }
 function updateAssignment(aID, aName, aWeight, aScore, cb){
 	console.log('updating assignment='+aID);
-	var sql = 'update assignments SET a_name = $1, a_weight = $2, a_score = $3 WHERE a_aid = $4;';
+	var sql = 'update assignments SET a_aname = $1, a_weight = $2, a_score = $3 WHERE a_aid = $4;';
 	client.query(sql, [aName, aWeight, aScore, aID], function(err, rVal){
 		if(err !== null){
 			console.log('trouble updating assignment, returned:'+rVal);
+			console.log(err);
 			cb(-1);
 		}else{
 			//returned non-null
@@ -277,7 +278,7 @@ exports.home = function(req, res) {
 function courseList(courses){
 	var result='';
 	for(var i = 0; i < courses.length; i++){
-		result += '<a href="/est/' + courses[i].c_cid+ '">' +courses[i].c_name + '</a><br>';
+		result += '<a href="/est/' + courses[i].c_cid+ '">' +courses[i].c_name + '</a> <a href="/remove-course/'+ courses[i].c_cid +'">remove </a><br>';
 	}
 	return result;
 }
@@ -563,3 +564,10 @@ exports.get_assignments = function(req, res) {
 	
 	
 };
+
+exports.remove_course = function(req, res){
+	var cid = req.params.cid;
+	removeCourse(cid, function(){
+		res.redirect('/profile');
+	});
+}
