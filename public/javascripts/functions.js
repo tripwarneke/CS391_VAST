@@ -1,28 +1,51 @@
-//place functions for client side interactions and checks here
-var interval_id;
+// default handling function
+$(function () {
+	// bind calculate button with mouse click
+	$('#calculate').bind('click', function(event){
+		calculate();
+	});
+	// load the assignments of the course when the est is loaded up
+	$('#course-select').ready(function(event){
+		reloadEST($('#course-select').val());	
+	});
+	// load the assignments of the course when change the drop down box
+	$('#course-select').change(function(event){
+		reloadEST($('#course-select').val());
+	});
+	// save the assignments with button
+	$('#save-changes').bind('click',function(event){
+		save($('#course-select').val());
+	});
+	
+	
+});
 
-//set interval to 3 seconds
-var start_polling = function () {
-	interval_id = setInterval(get_data, 3000);
-};
 
-var stop_polling = function () {
-	if (interval_id) {
-		clearInterval(interval_id);
+function save(cid){
+
+	var assignments = [];
+	for (var i = 0; i < 6; i++){
+		if($('#weight'+(i+1)).val()!=''){
+			var assignment={};
+			assignment.name = $('#assign'+(i+1)).val();
+			assignment.weight = $('#weight'+(i+1)).val();
+			assignment.grade = $('#grade'+(i+1)).val();
+			assignments.push(assignment);
+		}
 	}
-};
-
-var get_data = function () {
+	
 	var req = $.ajax({
-		type: 'GET',
-		url : '/get-data'
+		type: 'POST',
+		url : '/save-assignments',
+		data: { 'cid' : cid,
+			'assignments': assignments
+		}
 	});
+	
 	req.done(function (data) {
-		user = data;
-		//console.log('received data: ' + data.msg);
-		$('#name').text(user.u_name);
-		$('#school').text(user.u_school);
+		calculate();
 	});
+	
 };
 
 function calculate(){
@@ -109,24 +132,25 @@ function reloadEST(cid) {
 		var assignments = data.assignments;
 		if(assignments.length != 0){
 
-		for (var i = 0; i<assignments.length; i++){
-			if(assignments[i]){
-				$('#assign'+(i+1)).val(assignments[i].a_aname);
-				$('#weight'+(i+1)).val(assignments[i].a_weight);
-				$('#grade'+(i+1)).val(assignments[i].a_score);
+			for (var i = 0; i<assignments.length; i++){
+				if(assignments[i]){
+					$('#assign'+(i+1)).val(assignments[i].a_aname);
+					$('#weight'+(i+1)).val(assignments[i].a_weight);
+					$('#grade'+(i+1)).val(assignments[i].a_score);
+				}
 			}
+		
 		}
+		
+		for (var i = assignments.length; i < 6; i++){
+			$('#assign'+(i+1)).val('');
+			$('#weight'+(i+1)).val('');
+			$('#grade'+(i+1)).val('');
 		}
+		calculate();
 	});
 };
 
-$(function () {
-	$('#calculate').bind('click', function(event){
-		calculate();
-	});
-	$('#course-select').change(function(event){
-		reloadEST($('#course-select').val());
-		//alert($('#course-select').val());
-	});
-	
-});
+
+
+

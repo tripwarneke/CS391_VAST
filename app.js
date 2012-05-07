@@ -46,7 +46,7 @@ app.get('/est/:cid', routes.est);
 app.post('/create', routes.create);
 app.post('/login', routes.login);
 app.post('/add-course', routes.add_course);
-app.post('/save-assignment', routes.save_assignment);
+app.post('/save-assignments', routes.save_assignment);
 app.post('/addGrade', routes.add_grade);
 app.post('/add-course', routes.add_gourse);
 

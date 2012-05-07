@@ -13,7 +13,7 @@
 			<h1>Grade Estimator</h1>
 				<div class="est-left">
 					<p>Select a Course <select id="course-select" name="course"><%- courses %></select></p>
-					<form id="assignments" action="/save-assignment" method="post">
+					<!--<form id="assignments" action="/save-assignment" method="post">-->
 					
 						<p>Add Assignments type, weight, and grade</p>
 							<li><label for="assign">Assignment</label></li>
@@ -84,9 +84,9 @@
 						<li><input type="number" class="spin" id="weight6" name="weight6" step="5" min="0" max="100" value="0"></li>
 						<li><input type="text" class="spin" id="grade6" name="grade6"></li></p>
 						
-
-						<input type="submit" value="Save Changes" class="button" />
-					</form>	
+						<button id="save-changes" class="button">Save Changes</button>
+						<!--<input type="submit" value="Save Changes" class="button" />
+					</form>-->
 					
 					
 				</div>

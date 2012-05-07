@@ -496,32 +496,38 @@ exports.add_grade = function(req, res) {
 
 
 exports.save_assignment = function(req, res) {
-	var cid = req.session.cid;
-	var weight1 = req.body.weight1;
-	var weight2 = req.body.weight2;
-	var weight3 = req.body.weight3;
-	var weight4 = req.body.weight4;
-	var weight5 = req.body.weight5;
-	var weight6 = req.body.weight6;
-	if(weight1>0){
-		addAssignment(cid, req.body.assign1, weight1, req.body.grade1,function(){});
-	}
-	if(weight2>0){
-		addAssignment(cid, req.body.assign2, weight2, req.body.grade2,function(){});
-	}
-	if(weight3>0){
-		addAssignment(cid, req.body.assign3, weight3, req.body.grade3,function(){});
-	}	
-	if(weight4>0){
-		addAssignment(cid, req.body.assign4, weight4, req.body.grade4,function(){});
-	}
-	if(weight5>0){
-		addAssignment(cid, req.body.assign5, weight5, req.body.grade5,function(){});
-	}
-	if(weight6>0){
-		addAssignment(cid, req.body.assign6, weight6, req.body.grade6,function(){});
-	}
-	res.redirect('/profile');
+	console.log('save assignments called');
+	var data = req.body;
+	var cid = data.cid;
+	var assignments = data.assignments;
+	
+	getAssignments(req.session.user.u_uid, cid, function(result){
+		if(result.length == assignments.length){
+			for(var i = 0; i < result.length; i++){
+				updateAssignment(result[i].a_aid, assignments[i].name, assignments[i].weight, assignments[i].grade, function(){});
+			}
+		}
+		else if (result.length < assignments.length){
+			for(var i = 0; i < result.length; i++){
+				updateAssignment(result[i].a_aid, assignments[i].name, assignments[i].weight, assignments[i].grade, function(){});
+			}
+			for(var i= result.length; i < assignments.length; i++){
+				addAssignment(cid, assignments[i].name, assignments[i].weight, assignments[i].grade, function(){});
+			}
+		}
+		else{
+			for(var i = 0; i < assignments.length; i++){
+				updateAssignment(result[i].a_aid, assignments[i].name, assignments[i].weight, assignments[i].grade, function(){});
+			}
+			for(var i= assignments.length; i < result.length; i++){
+				removeAssignment(result[i].a_aid, function(){});
+			}
+		}
+		
+	});
+	
+	console.log(data.assignments);
+	
 };
 
 exports.add_course = function(req, res) {
@@ -551,7 +557,6 @@ exports.get_assignments = function(req, res) {
 		
 		res.contentType('application/json');
 		res.send({ 'assignments' : result});
-		console.log('length' +result.length);
 		console.log(result)
 	});
 	
