@@ -84,12 +84,13 @@ function addAssignment(courseID, assignmentName, assignmentWeight, assignmentSco
 	});
 }
 function getAssignments(userID, courseID, cb){
-	var sql = 'select A.a_aid, A.a_aname, A.a_weight, A.a_score, T.t_grade from assignments A, takes T, homeworks H where T.t_uid = $1 AND T.t_cid = $2 AND H.h_cid = T.t_cid;';
-	client.query(sql, [userID, courseID],function(err, result) {
+	//var sql = 'select A.a_aid, A.a_aname, A.a_weight, A.a_score, T.t_grade from assignments A, takes T, homeworks H where T.t_uid = $1 AND T.t_cid = $2 AND H.h_cid = T.t_cid;';
+	var sql = 'select A.a_aid, A.a_aname, A.a_weight, A.a_score from assignments A, homeworks H where  H.h_cid = $1 AND H.h_aid = A.a_aid;';
+	client.query(sql, [courseID],function(err, result) {
 		if(err !== null){
 			cb(null);
 		}else{
-			console.log(JSON.stringify(result));
+			//console.log(JSON.stringify(result));
 			//console.log('returning rows');
 			cb(result.rows);
 		}
@@ -97,10 +98,11 @@ function getAssignments(userID, courseID, cb){
 }
 function updateAssignment(aID, aName, aWeight, aScore, cb){
 	console.log('updating assignment='+aID);
-	var sql = 'update assignments SET a_name = $1, a_weight = $2, a_score = $3 WHERE a_aid = $4;';
+	var sql = 'update assignments SET a_aname = $1, a_weight = $2, a_score = $3 WHERE a_aid = $4;';
 	client.query(sql, [aName, aWeight, aScore, aID], function(err, rVal){
 		if(err !== null){
 			console.log('trouble updating assignment, returned:'+rVal);
+			console.log(err);
 			cb(-1);
 		}else{
 			//returned non-null
@@ -130,9 +132,10 @@ function addCourse(userID, coursename, semester, year, instructor, cb) { //SEMES
 			console.log('trouble storing new course, returned:' + rVal);
 			cb(-1);
 		}else{
-			console.log('returned: rVal');
-			var sql2 = 'insert into takes values($1, rVal);';
-			client.query(sql2, [userID], function(err, rVal){
+			var cid = rVal.rows[0].c_cid;
+			console.log('returned: ' + cid);
+			var sql2 = 'insert into takes values($1, $2);';
+			client.query(sql2, [userID, cid], function(err, rVal){
 				if(err !== null){
 					console.log('trouble adding takes relation, returned:'+rVal);
 					cb(-1);
@@ -271,6 +274,15 @@ exports.home = function(req, res) {
     // TODO: home
 	res.render('home',{title:'Home', msg:req.session.msg});
 };
+
+function courseList(courses){
+	var result='';
+	for(var i = 0; i < courses.length; i++){
+		result += '<a href="/est/' + courses[i].c_cid+ '">' +courses[i].c_name + '</a> <a href="/remove-course/'+ courses[i].c_cid +'">remove </a><br>';
+	}
+	return result;
+}
+
 exports.profile = function(req, res) {
     var user  = req.session.user;
     if (!user) {
@@ -278,16 +290,23 @@ exports.profile = function(req, res) {
         res.redirect('/home');
         return;
     }
-	getGrades(user.u_uid, function(rows){
-		var gpa = GPAfromRows(rows).toPrecision(3);
-		res.render('profile',{	title:user.u_name+"'s Profile",
-		user:user.u_uid,
-		uName:user.u_name,
-		uSchool:user.u_school,
-		GPAReturn:gpa
+	getCourses(user.u_uid, function(courses){
+		var courses = courseList(courses);
+		getGrades(user.u_uid, function(grades){
+			var gpa = GPAfromRows(grades).toPrecision(3);
+
+			res.render('profile',{	title:user.u_name+"'s Profile",
+			user:user.u_uid,
+			uName:user.u_name,
+			uSchool:user.u_school,
+			GPAReturn:gpa,
+			courses:courses
+			});
 		});
 	});
+
 };
+
 exports.gpa = function(req, res) {
 	var user = req.session.user;
 	if(user){
@@ -323,8 +342,61 @@ exports.gpa = function(req, res) {
 	}
 };
 
+function dropList(courses, cid){
+	var result = '';
+	for(var i = 0; i < courses.length; i++){
+		if(cid == courses[i].c_cid)
+			result += '<option selected value="'+courses[i].c_cid+ '" selec>' + courses[i].c_name + '</option>';
+		else
+			result += '<option value="'+courses[i].c_cid+ '">' + courses[i].c_name + '</option>';
+	}
+	return result;
+};
+
 exports.est = function(req, res) {
-	res.render('est',{title:'Grade Estimator'});
+	var user  = req.session.user;
+    if (!user) {
+	req.session.msg = 'Please login first';
+        res.redirect('/home');
+        return;
+    }
+	var cid = req.params.cid;
+	req.session.cid = cid;
+	getCourses(user.u_uid, function(courses){
+			res.render('est',{title:'Grade Estimator',
+							courses:dropList(courses, cid)
+			});
+			/*
+		getAssignments(user.u_uid, cid, function(assignments){
+			var ass1;
+			var ass2;
+			var ass3;
+			var ass4;
+			var ass5;
+			var ass6;
+			if (assignments[0]){
+				ass1.a_aid = assignments[0].a_aid;
+				ass1.a_aname = assignments[0].a_aname;
+				ass1.a_weight = assignments[0].a_weight;
+				ass1.a_score= assignments[0].a_score;
+			}
+			if (assignments[1]){
+				ass2.a_aid = assignments[1].a_aid;
+				ass2.a_aname = assignments[1].a_aname;
+				ass2.a_weight = assignments[1].a_weight;
+				ass2.a_score= assignments[1].a_score;
+			}
+			if (assignments[2]){
+				ass3.a_aid = assignments[2].a_aid;
+				ass3.a_aname = assignments[2].a_aname;
+				ass3.a_weight = assignments[2].a_weight;
+				ass3.a_score= assignments[2].a_score;
+			}
+
+		});
+		*/
+	});
+	
 };
 
 // handle create page and create account
@@ -406,68 +478,96 @@ exports.login = function(req, res) {
 };
 exports.login_view = function(req, res) {
 	res.render('login_view', {title: 'LOGIN', msg:''});
-}
+};
 
 exports.logout = function(req, res) {
 	req.session.destroy();
 	res.render('home',{title:'Home',msg:'Your account has been logged out successfully'});
 };
 
-// handle create page and create account
-exports.add_course = function(req, res) {
-	var course= req.body.course;
-	var grade = req.body.grade;
-	var credits = req.body.credits;
-	var semester = req.body.semester;
-	var year = req.body.year;
-	
-};
 
-exports.addGrade = function(req, res) {
+exports.add_grade = function(req, res) {
 	var grade = req.body.grade;
 	var credits = req.body.credits;
 	var userID = req.session.user.u_uid;
 	addGrade(userID, 0, grade, credits, function(result){
 		res.redirect('/gpa');
 	});
-}
+};
 
 
-exports.save_assignment = function(req, res) {	
-	var weight1 = req.body.weight1;
-	var weight2 = req.body.weight2;
-	var weight3 = req.body.weight3;
-	var weight4 = req.body.weight4;
-	var weight5 = req.body.weight5;
-	var weight6 = req.body.weight6;
-	if(weight1>0){
-		addAssignment(1, req.body.assign1, weight1, req.body.grade1,function(){});
-	}
-	if(weight2>0){
-		addAssignment(1, req.body.assign2, weight2, req.body.grade2,function(){});
-	}
-	if(weight3>0){
-		addAssignment(1, req.body.assign3, weight3, req.body.grade3,function(){});
-	}	
-	if(weight4>0){
-		addAssignment(1, req.body.assign4, weight4, req.body.grade4,function(){});
-	}
-	if(weight5>0){
-		addAssignment(1, req.body.assign5, weight5, req.body.grade5,function(){});
-	}
-	if(weight6>0){
-		addAssignment(1, req.body.assign6, weight6, req.body.grade6,function(){});
-	}
-	res.redirect('/est');
-}
-
-exports.get_data = function(req, res) {
-	// Set the content type:
-	res.contentType('application/json');
-
-	console.log('get data called ' );
-
-	// Send the result:
-	res.send({ 'user' : req.session.user});
+exports.save_assignment = function(req, res) {
+	console.log('save assignments called');
+	var data = req.body;
+	var cid = data.cid;
+	var assignments = data.assignments;
+	
+	getAssignments(req.session.user.u_uid, cid, function(result){
+		if(result.length == assignments.length){
+			for(var i = 0; i < result.length; i++){
+				updateAssignment(result[i].a_aid, assignments[i].name, assignments[i].weight, assignments[i].grade, function(){});
+			}
+		}
+		else if (result.length < assignments.length){
+			for(var i = 0; i < result.length; i++){
+				updateAssignment(result[i].a_aid, assignments[i].name, assignments[i].weight, assignments[i].grade, function(){});
+			}
+			for(var i= result.length; i < assignments.length; i++){
+				addAssignment(cid, assignments[i].name, assignments[i].weight, assignments[i].grade, function(){});
+			}
+		}
+		else{
+			for(var i = 0; i < assignments.length; i++){
+				updateAssignment(result[i].a_aid, assignments[i].name, assignments[i].weight, assignments[i].grade, function(){});
+			}
+			for(var i= assignments.length; i < result.length; i++){
+				removeAssignment(result[i].a_aid, function(){});
+			}
+		}
+		
+	});
+	
+	console.log(data.assignments);
 	
 };
+
+exports.add_course = function(req, res) {
+	var user  = req.session.user;
+    if (!user) {
+	req.session.msg = 'Please login first';
+        res.redirect('/home');
+        return;
+    }
+	var cname = req.body.cname;
+	addCourse(user.u_uid, cname, 'SPRING', '2012', 'Tim', function(){ //SEMESTER is SPRING, SUMMER, WINTER, FALL, year is yyyy
+		res.redirect('/profile');
+	});
+};
+
+
+exports.get_assignments = function(req, res) {
+	// Set the content type:
+	
+
+	console.log('get assignments called');
+	var data = req.body;
+	
+	var cid = data.cid;
+	
+	getAssignments(req.session.user.u_uid, cid, function(result){
+		
+		res.contentType('application/json');
+		res.send({ 'assignments' : result});
+		console.log(result)
+	});
+	
+	
+	
+};
+
+exports.remove_course = function(req, res){
+	var cid = req.params.cid;
+	removeCourse(cid, function(){
+		res.redirect('/profile');
+	});
+}

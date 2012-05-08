@@ -13,8 +13,8 @@
 	<div id="content">
 		<div class="body-left">
 			<h1>Welcome <%- uName %></h1>
-			<form id="update-profile" action method="post">
-				
+			
+			<form id="course" action="add-course" method="post">
 				<div class="split-left">
 				
 					<p>Status</p>
@@ -30,22 +30,29 @@
 						<li id="semester"></li></p>
 						
 						
-						
+						<br/>
+						<br/>
+						<br/>
+					
+						<p><label for="course-name">Enter a Course Name</label></p>
+						<p><input type="text" id="cname" name="cname"></p>
+						<p></p>
 						<p><input type="submit" id="add-course" value="Add Course" class="button" /></p>
+					
 						<p></p>
 						<p></p>
 						<p><input type="submit" id="remove-course" value="Remove Course" class="button" /></p>
 			
 						
 				</div>
-				
+			</form>		
 				<div class="split-right">
 					<p id="courses"><label for="courses">Courses</label></p>
 						<ul id="courses">display list of courses here</ul>
-					
+						<%- courses %>
 				</div>	
 				
-				</form>		
+					
 		</div>
 		<div class="body-right">
 			<h3>Navigation</h3>

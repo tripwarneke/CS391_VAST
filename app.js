@@ -41,14 +41,17 @@ app.get('/logout', routes.logout);
 app.get('/profile', routes.profile);
 app.get('/gpa', routes.gpa);
 app.get('/est', routes.est);
+app.get('/est/:cid', routes.est);
+app.get('/remove-course/:cid', routes.remove_course);
 
 app.post('/create', routes.create);
 app.post('/login', routes.login);
 app.post('/add-course', routes.add_course);
-app.post('/save-assignment', routes.save_assignment);
-app.post('/addGrade', routes.addGrade);
+app.post('/save-assignments', routes.save_assignment);
+app.post('/addGrade', routes.add_grade);
+app.post('/add-course', routes.add_gourse);
 
-app.get('/get-data', routes.get_data);
+app.post('/get-assignments', routes.get_assignments);
 
 
 //almost forgot to set this back to 3000
